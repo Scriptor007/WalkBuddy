@@ -14,10 +14,6 @@ namespace WalkBuddy.Models
 
         public Category? Category { get; set; }
 
-        public List<ProjectTask> Tasks { get; set; } = [];
-
-        public List<Tag> Tags { get; set; } = [];
-
         public string AccessibilityDescription
         {
             get { return $"{Name} Project. {Description}"; }
