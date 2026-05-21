@@ -1,0 +1,23 @@
+﻿using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace WalkBuddy.Services
+{
+    public class DatabaseService
+    {
+       private SQLiteAsyncConnection _database;
+
+       public async Task<SQLiteAsyncConnection> Init()
+       {
+            if (_database != null)
+                return _database;
+
+            _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            await _database.CreateTableAsync<Models.User>();
+
+            return _database;
+       }
+    }
+}

@@ -38,6 +38,10 @@ namespace WalkBuddy
 
             builder.Services.AddSingleton<CategoryRepository>();
             builder.Services.AddSingleton<MainPageModel>();
+            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<UserRepository>();
+
+            builder.Services.AddTransient<OnboardingPageModel>();
 
             builder.UseUraniumUI();
             builder.UseUraniumUIMaterial();

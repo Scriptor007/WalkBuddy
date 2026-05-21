@@ -9,7 +9,7 @@
     Title="WalkBuddy">
 
     <ShellContent
-        Title="Dashboard"
-        ContentTemplate="{DataTemplate pages:MainPage}"
+        Title="Onboarding"
+        ContentTemplate="{DataTemplate pages:OnboardingPage}"
         Route="main" />
 </Shell>
