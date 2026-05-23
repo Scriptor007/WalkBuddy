@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:models="clr-namespace:WalkBuddy.Models"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              x:Class="WalkBuddy.Pages.OnboardingPage"
              x:DataType="pageModels:OnboardingPageModel"
              Title="OnboardingPage">
@@ -24,9 +22,5 @@
             Style="{StaticResource SubHeadline}"
             SemanticProperties.HeadingLevel="Level2"
             SemanticProperties.Description="Let's personalise your experience so every prompt feels right for you." />
-
-        <material:TextField Title="Username" Text="{Binding User.Username}">
-            <validation:RequiredValidation />
-        </material:TextField>
     </VerticalStackLayout>
 </ContentPage>
