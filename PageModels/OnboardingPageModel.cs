@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
 using WalkBuddy.Models;
 
 namespace WalkBuddy.PageModels
@@ -11,17 +9,30 @@ namespace WalkBuddy.PageModels
     {
         private readonly UserRepository _userRepository;
 
-        [ObservableProperty]
-        private User _user = new User();
+        private readonly StaticDataService _staticDataService;
 
-        public OnboardingPageModel(UserRepository userRepository)
+        [ObservableProperty]
+        private User _user = new();
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SaveUserCommand))]
+        private string _username = string.Empty;
+
+        public List<string> Interests { get; set; } = [];
+        public List<string> Feelings { get; set; } = [];
+
+        public OnboardingPageModel(UserRepository userRepository, StaticDataService staticDataService)
         {
             _userRepository = userRepository;
+            _staticDataService = staticDataService;
+            Interests = _staticDataService.Interests;
+            Feelings = _staticDataService.Feelings;
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanSaveUser))]
         private async Task SaveUser()
         {
+            User.Username = Username;
             await _userRepository.SaveUserAsync(User);
         }
 
@@ -30,5 +41,13 @@ namespace WalkBuddy.PageModels
             User user = await _userRepository.GetUserAsync(id);
             User = user;
         }
+
+        [RelayCommand]
+        private void EnableGPS()
+        {
+            AppInfo.Current.ShowSettingsUI();
+        }
+
+        private bool CanSaveUser() => !string.IsNullOrWhiteSpace(Username);
     }
 }

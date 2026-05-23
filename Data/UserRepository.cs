@@ -1,7 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WalkBuddy.Models;
 
 namespace WalkBuddy.Data
@@ -18,6 +15,13 @@ namespace WalkBuddy.Data
         public async Task<int> SaveUserAsync(User user)
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
+
+            if (user.Interests.Count > 0)
+                user.InterestsString = string.Join(",", user.Interests);
+
+            if (user.Feelings.Count > 0)
+                user.FeelingsString = string.Join(",", user.Feelings);
+
             if (user.ID != 0)
                 return await db.UpdateAsync(user);
             else
@@ -28,6 +32,6 @@ namespace WalkBuddy.Data
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
             return await db.Table<User>().Where(u => u.ID == id).FirstOrDefaultAsync();
-        } 
+        }
     }
 }

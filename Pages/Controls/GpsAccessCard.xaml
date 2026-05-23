@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WalkBuddy.Pages.Controls.GpsAccessCard"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit">
+
+    <StackLayout>
+        <Border
+            Stroke="{StaticResource Gray200}"
+            StrokeThickness="1"
+            Padding="16"
+            StrokeShape="10">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Allow location access?"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Start" />
+                <Label Text="We use your approximate location to add conext to prompts (e.g. nearby habitat). We never track or store your movements." />
+                <buttons:SfButton Text="Allow location access"
+                                  x:Name="SfButton" />
+            </VerticalStackLayout>
+        </Border>
+    </StackLayout>
+</ContentView>

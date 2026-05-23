@@ -3,30 +3,93 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:models="clr-namespace:WalkBuddy.Models"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              x:Class="WalkBuddy.Pages.OnboardingPage"
              x:DataType="pageModels:OnboardingPageModel"
+             xmlns:controls="clr-namespace:WalkBuddy.Pages.Controls"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:cards="clr-namespace:Syncfusion.Maui.Toolkit.Cards;assembly=Syncfusion.Maui.Toolkit"
              Title="OnboardingPage">
-    
-    <VerticalStackLayout>
-        <Image Source="dotnet_bot.png" 
-               SemanticProperties.Description="Cute dotnet bot waving hi to you!" 
-               HeightRequest="200" />
 
-        <Label
-            Text="Welcome"
-            Style="{StaticResource Headline}"
-            SemanticProperties.HeadingLevel="Level1" />
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <Label
-            Text="Let's personalise your experience so every prompt feels right for you."
-            Style="{StaticResource SubHeadline}"
-            SemanticProperties.HeadingLevel="Level2"
-            SemanticProperties.Description="Let's personalise your experience so every prompt feels right for you." />
+    <ScrollView>
+        <VerticalStackLayout>
+            <Image Source="dotnet_bot.png" 
+                   SemanticProperties.Description="Cute dotnet bot waving hi to you!" 
+                   HeightRequest="200" />
 
-        <material:TextField Title="Username" Text="{Binding User.Username}">
-            <validation:RequiredValidation />
-        </material:TextField>
-    </VerticalStackLayout>
+            <Label
+                Text="Welcome"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Let's personalise your experience so every prompt feels right for you."
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Let's personalise your experience so every prompt feels right for you." />
+
+            <!-- username input -->
+            <inputLayout:SfTextInputLayout Hint="Username"
+                                           ContainerType="Outlined"
+                                           ErrorText="Username is required"
+                                           HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
+                <Entry Text="{Binding Username, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior
+                            x:Name="NameValidator"
+                            Flags="ValidateOnUnfocused"
+                            MinimumLength="1" />
+                    </Entry.Behaviors>
+                </Entry>
+            </inputLayout:SfTextInputLayout>
+
+            <!-- About You Textbox -->
+            <controls:DividerWithLabel LabelText="TELLS US MORE" />
+
+            <inputLayout:SfTextInputLayout Hint="About You"
+                                           ContainerType="Outlined">
+                <Editor AutoSize="TextChanges" />
+            </inputLayout:SfTextInputLayout>
+                              
+            <!-- Interest Chip Multi Select -->
+            <controls:DividerWithLabel LabelText="INTERESTS" />
+
+            <Grid>
+                <ChipControl:SfChipGroup
+                    ItemsSource="{Binding Interests}"
+                    SelectedItem="{Binding User.Interests}"
+                    ChipType="Filter" />
+            </Grid>
+            
+            <!-- Usual Feeling Chip Multi Select -->
+            <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
+
+            <Grid>
+                <ChipControl:SfChipGroup
+                    ItemsSource="{Binding Feelings}"
+                    SelectedItem="{Binding User.Feelings}"
+                    ChipType="Filter" />
+            </Grid>
+            
+            <!-- Mobility -->
+            <controls:DividerWithLabel LabelText="MOBILITY" />
+
+            <!-- GPS Settings -->
+
+            <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}" />
+
+            <!-- Save Button -->
+            <buttons:SfButton Text="Save &amp; get started"
+                              Command="{Binding SaveUserCommand}" />
+            
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

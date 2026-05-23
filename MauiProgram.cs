@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
-using UraniumUI;
 
 namespace WalkBuddy
 {
@@ -14,6 +14,7 @@ namespace WalkBuddy
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .ConfigureSyncfusionToolkit()
+                .UseMaterialMauiIcons()
                 .ConfigureMauiHandlers(handlers =>
                 {
 #if WINDOWS
@@ -28,23 +29,19 @@ namespace WalkBuddy
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("SegoeUI-Semibold.ttf", "SegoeSemibold");
-                    fonts.AddMaterialSymbolsFonts();
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
-    		builder.Services.AddLogging(configure => configure.AddDebug());
+            builder.Logging.AddDebug();
+            builder.Services.AddLogging(configure => configure.AddDebug());
 #endif
 
             builder.Services.AddSingleton<CategoryRepository>();
-            builder.Services.AddSingleton<MainPageModel>();
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<UserRepository>();
+            builder.Services.AddSingleton<StaticDataService>();
 
             builder.Services.AddTransient<OnboardingPageModel>();
-
-            builder.UseUraniumUI();
-            builder.UseUraniumUIMaterial();
 
             return builder.Build();
         }
