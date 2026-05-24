@@ -11,6 +11,7 @@ namespace WalkBuddy
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
+            //Preferences.Clear();
             Routing.RegisterRoute("onboarding", typeof(OnboardingPage));
             this.Loaded += AppShell_Loaded;
         }

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using WalkBuddy.Models;
@@ -10,6 +11,8 @@ namespace WalkBuddy.PageModels
         private readonly UserRepository _userRepository;
 
         private readonly StaticDataService _staticDataService;
+
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         [ObservableProperty]
         private User _user = new();
@@ -35,21 +38,10 @@ namespace WalkBuddy.PageModels
             User.Username = Username;
             await _userRepository.SaveUserAsync(User);
             Preferences.Default.Set("isRegistered", true);
+            var toast = Toast.Make("Successfully saved data", CommunityToolkit.Maui.Core.ToastDuration.Short);
+            await toast.Show(_cancellationTokenSource.Token);
             await Shell.Current.GoToAsync("//homepage");
 
-        }
-
-        [RelayCommand(CanExecute = nameof(CanSaveUser))]
-        private async Task SaveUser()
-        {
-            User.Username = Username;
-            await _userRepository.SaveUserAsync(User);
-        }
-
-        private async Task LoadUser(int id)
-        {
-            User user = await _userRepository.GetUserAsync(id);
-            User = user;
         }
 
         [RelayCommand]

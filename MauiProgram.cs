@@ -13,7 +13,12 @@ namespace WalkBuddy
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkit(options =>
+                {
+#if WINDOWS
+                    options.SetShouldEnableSnackbarOnWindows(true);
+#endif
+                })
                 .ConfigureSyncfusionToolkit()
                 .UseMaterialMauiIcons()
                 .ConfigureMauiHandlers(handlers =>
