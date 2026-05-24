@@ -95,6 +95,9 @@
 	  <MauiXaml Update="Pages\Controls\GpsAccessCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\EditUserPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\OnboardingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

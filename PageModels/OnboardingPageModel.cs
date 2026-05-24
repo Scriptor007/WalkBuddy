@@ -15,7 +15,7 @@ namespace WalkBuddy.PageModels
         private User _user = new();
 
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SaveUserCommand))]
+        [NotifyCanExecuteChangedFor(nameof(CreateUserCommand))]
         private string _username = string.Empty;
 
         public List<string> Interests { get; set; } = [];
@@ -27,6 +27,16 @@ namespace WalkBuddy.PageModels
             _staticDataService = staticDataService;
             Interests = _staticDataService.Interests;
             Feelings = _staticDataService.Feelings;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSaveUser))]
+        private async Task CreateUser()
+        {
+            User.Username = Username;
+            await _userRepository.SaveUserAsync(User);
+            Preferences.Default.Set("isRegistered", true);
+            await Shell.Current.GoToAsync("//homepage");
+
         }
 
         [RelayCommand(CanExecute = nameof(CanSaveUser))]

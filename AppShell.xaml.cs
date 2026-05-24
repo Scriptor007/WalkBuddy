@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using WalkBuddy.Pages;
 using Font = Microsoft.Maui.Font;
 
 namespace WalkBuddy
@@ -10,7 +11,18 @@ namespace WalkBuddy
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
+            Routing.RegisterRoute("onboarding", typeof(OnboardingPage));
+            this.Loaded += AppShell_Loaded;
         }
+
+        private async void AppShell_Loaded(object? sender, EventArgs e)
+        {
+            if (!Preferences.Default.Get("isRegistered", false))
+            {
+                await Shell.Current.GoToAsync("onboarding");
+            }
+        }
+
         public static async Task DisplaySnackbarAsync(string message)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

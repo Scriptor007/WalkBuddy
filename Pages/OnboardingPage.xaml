@@ -11,7 +11,12 @@
              xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:cards="clr-namespace:Syncfusion.Maui.Toolkit.Cards;assembly=Syncfusion.Maui.Toolkit"
-             Title="OnboardingPage">
+             Title="OnboardingPage"
+             Shell.TabBarIsVisible="False">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -41,7 +46,7 @@
                                            ContainerType="Outlined"
                                            ErrorText="Username is required"
                                            HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
-                <Entry Text="{Binding Username, Mode=TwoWay}">
+                <Entry Text="{Binding Username}">
                     <Entry.Behaviors>
                         <toolkit:TextValidationBehavior
                             x:Name="NameValidator"
@@ -88,7 +93,7 @@
 
             <!-- Save Button -->
             <buttons:SfButton Text="Save &amp; get started"
-                              Command="{Binding SaveUserCommand}" />
+                              Command="{Binding CreateUserCommand}" />
             
         </VerticalStackLayout>
     </ScrollView>

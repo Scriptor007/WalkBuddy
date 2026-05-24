@@ -2,6 +2,7 @@
 using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
+using WalkBuddy.Pages;
 
 namespace WalkBuddy
 {
@@ -41,7 +42,11 @@ namespace WalkBuddy
             builder.Services.AddSingleton<UserRepository>();
             builder.Services.AddSingleton<StaticDataService>();
 
+            builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
+
+            //builder.Services.AddTransient<OnboardingPage>();
+            //builder.Services.AddTransient<MainPage>();
 
             return builder.Build();
         }
