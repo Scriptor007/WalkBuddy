@@ -21,7 +21,7 @@ public partial class GpsAccessCard : ContentView
     }
 
     public GpsAccessCard()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 }

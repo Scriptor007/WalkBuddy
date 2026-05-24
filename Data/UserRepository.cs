@@ -19,8 +19,11 @@ namespace WalkBuddy.Data
             if (user.Interests.Count > 0)
                 user.InterestsString = string.Join(",", user.Interests);
 
-            if (user.Feelings.Count > 0)
-                user.FeelingsString = string.Join(",", user.Feelings);
+            if (user.ChallengingStates.Count > 0)
+                user.ChallengingString = string.Join(",", user.ChallengingStates);
+
+            if (user.PositiveStates.Count > 0)
+                user.PositiveString = string.Join(",", user.PositiveStates);
 
             if (user.ID != 0)
                 return await db.UpdateAsync(user);
