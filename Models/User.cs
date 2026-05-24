@@ -11,13 +11,15 @@ namespace WalkBuddy.Models
 
         public string Username { get; set; } = string.Empty;
 
+        public string AdditionalInfo { get; set; } = string.Empty;
+
         [Ignore]
-        public ObservableCollection<object> Interests { get; set; } = [];
+        public ObservableCollection<string> Interests { get; set; } = [];
 
         public string InterestsString { get; set; } = string.Empty;
 
         [Ignore]
-        public ObservableCollection<object> Feelings { get; set; } = [];
+        public ObservableCollection<string> Feelings { get; set; } = [];
 
         public string FeelingsString { get; set; } = string.Empty;
     }

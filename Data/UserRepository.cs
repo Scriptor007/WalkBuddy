@@ -27,11 +27,32 @@ namespace WalkBuddy.Data
             else
                 return await db.InsertAsync(user);
         }
-
-        public async Task<User> GetUserAsync(int id)
+        
+        public async Task<User> GetUserAsync()
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
-            return await db.Table<User>().Where(u => u.ID == id).FirstOrDefaultAsync();
+
+            User user = await db.Table<User>().FirstOrDefaultAsync();
+
+            if (user.InterestsString != null)
+            {
+                string[] interests = user.InterestsString.Split(',');
+                foreach (var interest in interests)
+                {
+                    user.Interests.Add(interest);
+                }
+            }
+
+            if (user.FeelingsString != null)
+            {
+                string[] feelings = user.FeelingsString.Split(',');
+                foreach (var feeling in feelings)
+                {
+                    user.Feelings.Add(feeling);
+                }
+            }
+
+            return user;
         }
     }
 }

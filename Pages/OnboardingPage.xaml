@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
-             xmlns:models="clr-namespace:WalkBuddy.Models"
              x:Class="WalkBuddy.Pages.OnboardingPage"
              x:DataType="pageModels:OnboardingPageModel"
              xmlns:controls="clr-namespace:WalkBuddy.Pages.Controls"
@@ -10,7 +9,6 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
-             xmlns:cards="clr-namespace:Syncfusion.Maui.Toolkit.Cards;assembly=Syncfusion.Maui.Toolkit"
              Title="OnboardingPage"
              Shell.TabBarIsVisible="False">
 
@@ -61,7 +59,8 @@
 
             <inputLayout:SfTextInputLayout Hint="About You"
                                            ContainerType="Outlined">
-                <Editor AutoSize="TextChanges" />
+                <Editor AutoSize="TextChanges"
+                        Text="{Binding User.AdditionalInfo}" />
             </inputLayout:SfTextInputLayout>
                               
             <!-- Interest Chip Multi Select -->
@@ -89,7 +88,8 @@
 
             <!-- GPS Settings -->
 
-            <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}" />
+            <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
+                                    ButtonText="Allow location access" />
 
             <!-- Save Button -->
             <buttons:SfButton Text="Save &amp; get started"
