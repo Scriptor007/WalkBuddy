@@ -10,6 +10,9 @@ namespace WalkBuddy
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
+
+            Routing.RegisterRoute(nameof(Pages.NaturePromptPage), typeof(Pages.NaturePromptPage));
+            Routing.RegisterRoute(nameof(Pages.ReflectionPage), typeof(Pages.ReflectionPage));
         }
         public static async Task DisplaySnackbarAsync(string message)
         {

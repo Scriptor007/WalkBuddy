@@ -8,8 +8,18 @@
     Shell.FlyoutBehavior="Flyout"
     Title="WalkBuddy">
 
-    <ShellContent
-        Title="Onboarding"
-        ContentTemplate="{DataTemplate pages:OnboardingPage}"
-        Route="main" />
+    <TabBar>
+        <Tab Title="Start">
+            <ShellContent
+                Title="Start"
+                ContentTemplate="{DataTemplate pages:StartSession}"
+                Route="start" />
+        </Tab>
+        <Tab Title="Onboarding">
+            <ShellContent
+                Title="Onboarding"
+                ContentTemplate="{DataTemplate pages:OnboardingPage}"
+                Route="onboarding" />
+        </Tab>
+    </TabBar>
 </Shell>
