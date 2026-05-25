@@ -10,15 +10,15 @@
            Text="{Binding LabelText}"
            VerticalOptions="Center" 
            HorizontalOptions="Start"
-           TextColor="{StaticResource Gray300}"
-           FontAttributes="Bold" />
+           TextColor="{StaticResource OnSurfaceVariant}"
+           FontFamily="RobotoMedium"
+               FontSize="14"/>
         <BoxView Grid.Column="1"
              HeightRequest="1"
-             Color="{StaticResource Gray200}"
-             VerticalOptions="Center" />
+             Color="{StaticResource Outline}" />
         <Label Grid.Column="2"
                Text="optional"
-               VerticalOptions="Center"
-               TextColor="{StaticResource Gray200}" />
+               FontSize="11"
+               TextColor="{StaticResource OnSurfaceVariant}" />
     </Grid>
 </ContentView>

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SQLite;
+﻿using SQLite;
 using System.Collections.ObjectModel;
 
 namespace WalkBuddy.Models
@@ -19,8 +18,15 @@ namespace WalkBuddy.Models
         public string InterestsString { get; set; } = string.Empty;
 
         [Ignore]
-        public ObservableCollection<string> Feelings { get; set; } = [];
+        public ObservableCollection<object> ChallengingStates { get; set; } = [];
 
-        public string FeelingsString { get; set; } = string.Empty;
+        public string ChallengingString { get; set; } = string.Empty;
+
+        [Ignore]
+        public ObservableCollection<object> PositiveStates { get; set; } = [];
+
+        public string PositiveString { get; set; } = string.Empty;
+
+        public string Mobility { get; set; } = string.Empty;
     }
 }

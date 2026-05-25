@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
 using WalkBuddy.Models;
 
 namespace WalkBuddy.PageModels
@@ -22,14 +21,18 @@ namespace WalkBuddy.PageModels
         private string _username = string.Empty;
 
         public List<string> Interests { get; set; } = [];
-        public List<string> Feelings { get; set; } = [];
+        public List<string> ChallengingStates { get; set; } = [];
+        public List<string> PositiveStates { get; set; } = [];
+        public List<string> Mobility { get; set; } = [];
 
         public OnboardingPageModel(UserRepository userRepository, StaticDataService staticDataService)
         {
             _userRepository = userRepository;
             _staticDataService = staticDataService;
             Interests = _staticDataService.Interests;
-            Feelings = _staticDataService.Feelings;
+            ChallengingStates = _staticDataService.ChallengingStates;
+            PositiveStates = _staticDataService.PositiveStates;
+            Mobility = _staticDataService.Mobility;
         }
 
         [RelayCommand(CanExecute = nameof(CanSaveUser))]

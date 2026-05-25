@@ -7,21 +7,30 @@
              x:DataType="local:GpsAccessCard"
              x:Name="GPS">
 
-    <StackLayout>
+    <VerticalStackLayout BackgroundColor="{StaticResource SurfaceVariant}">
         <Border
-            Stroke="{StaticResource Gray200}"
-            StrokeThickness="1"
-            Padding="16"
-            StrokeShape="10">
-            <VerticalStackLayout Spacing="12">
-                <Label Text="Allow location access?"
-                       Style="{StaticResource Headline}"
-                       HorizontalOptions="Start" />
-                <Label Text="We use your approximate location to add conext to prompts (e.g. nearby habitat). We never track or store your movements." />
-                <buttons:SfButton Text="{Binding ButtonText, Source={x:Reference GPS}}"
-                                  x:Name="SfButton"
-                                  Command="{Binding AccessCommand, Source={x:Reference GPS}}"/>
+            Stroke="{StaticResource Outline}"
+            StrokeShape="RoundRectangle 8, 8, 8, 8">
+            <VerticalStackLayout>
+                <VerticalStackLayout Padding="16">
+                    <Label Text="Allow location access?"
+                           HorizontalOptions="Start"
+                           FontFamily="RobotoMedium"
+                           TextColor="{StaticResource OnSurface}"/>
+                    <Label Text="We use your approximate location to add conext to prompts (e.g. nearby habitat). We never track or store your movements." 
+                           FontSize="12" 
+                           TextColor="{StaticResource OnSurfaceVariant}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Padding="16">
+                    <buttons:SfButton Text="Allow location access"
+                                      x:Name="SfButton"
+                                      Background="{StaticResource Primary}"
+                                      TextColor="{StaticResource OnPrimary}"
+                                      CornerRadius="8"
+                                      FontFamily="RobotoMedium" />
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </Border>
-    </StackLayout>
+    </VerticalStackLayout>
 </ContentView>
