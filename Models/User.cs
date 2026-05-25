@@ -27,6 +27,11 @@ namespace WalkBuddy.Models
 
         public string PositiveString { get; set; } = string.Empty;
 
+        [Ignore]
+        public ObservableCollection<object> Feelings { get; set; } = [];
+
+        public string FeelingsString { get; set; } = string.Empty;
+
         public string Mobility { get; set; } = string.Empty;
     }
 }

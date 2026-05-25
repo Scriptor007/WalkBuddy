@@ -9,19 +9,28 @@
     Title="WalkBuddy">
 
     <TabBar>
-        <Tab Title="Homepage">
+        <Tab Title="Home">
             <ShellContent
-                x:Name="homepage"
-                Title="Homepage"
-                ContentTemplate="{DataTemplate pages:MainPage}"
-                Route="homepage" />
+                Title="Home"
+                ContentTemplate="{DataTemplate pages:StartSession}"
+                Route="start" />
         </Tab>
-        <Tab Title="Edit">
+        <Tab Title="Sessions">
             <ShellContent
-                x:Name="edit"
-                Title="Profile"
-                ContentTemplate="{DataTemplate pages:EditProfilePage}"
-                Route="edit" />
+                Title="Sessions"
+                ContentTemplate="{DataTemplate pages:StartSession}"
+                Route="sessions" />
+        </Tab>
+        <Tab Title="Settings">
+            <ShellContent
+                Title="Settings"
+                ContentTemplate="{DataTemplate pages:StartSession}"
+                Route="settings" />
         </Tab>
     </TabBar>
+
+    <ShellContent
+        Title="Onboarding"
+        ContentTemplate="{DataTemplate pages:OnboardingPage}"
+        Route="onboarding" />
 </Shell>

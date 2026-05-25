@@ -208,6 +208,7 @@
                 <!-- Save Button -->
                 <buttons:SfButton Text="Save &amp; get started"
                                   Command="{Binding CreateUserCommand}"
+                                  Clicked="FinishOnboarding_Clicked"
                                   Background="{StaticResource Primary}"
                                   TextColor="{StaticResource OnPrimary}"
                                   CornerRadius="8"

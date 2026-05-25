@@ -8,6 +8,8 @@
 
         public List<string> PositiveStates { get; } = ["Generally content", "Curious & open", "Looking for calm", "Appreciate small things", "Feeling motivated"];
 
+        public List<string> Feelings { get; } = ["Stressed", "Anxious", "Sad", "Neutral", "Content"];
+
         public List<string> Mobility { get; } = ["I can walk freely", "I have some mobility limitations"];
     }
 }
