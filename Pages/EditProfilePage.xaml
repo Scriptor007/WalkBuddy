@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WalkBuddy.Pages.EditProfilePage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:controls="clr-namespace:WalkBuddy.Pages.Controls"
+             xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             x:DataType="pageModels:EditProfilePageModel"
+             x:Name="EditPage"
+             Title="EditProfilePage">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference EditPage}}"
+            EventName="Appearing"
+            Command="{Binding InitialUserLoadCommand}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <!-- username input -->
+            <inputLayout:SfTextInputLayout Hint="Username"
+                                           IsHintAlwaysFloated="True"
+                                           ContainerType="Outlined"
+                                           ErrorText="Username is required"
+                                           HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
+                <Entry Text="{Binding EditedUser.Username}"
+                       Placeholder="{Binding CurrentUser.Username}">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior
+                        x:Name="NameValidator"
+                        Flags="ValidateOnUnfocused"
+                        MinimumLength="1" />
+                    </Entry.Behaviors>
+                </Entry>
+            </inputLayout:SfTextInputLayout>
+
+            <!-- About You Textbox -->
+            <controls:DividerWithLabel LabelText="TELLS US MORE" />
+
+            <inputLayout:SfTextInputLayout Hint="About You"
+                                           IsHintAlwaysFloated="True"
+                                           ContainerType="Outlined">
+                <Editor AutoSize="TextChanges"
+                        Text="{Binding EditedUser.AdditionalInfo}"
+                        Placeholder="{Binding CurrentUser.AdditionalInfo}" />
+            </inputLayout:SfTextInputLayout>
+
+            <!-- Interest Chip Multi Select -->
+            <controls:DividerWithLabel LabelText="INTERESTS" />
+
+            <Grid>
+                <ChipControl:SfChipGroup
+                    ItemsSource="{Binding Interests}"
+                    SelectedItem="{Binding EditedUser.Interests}"
+                    ChipType="Filter" />
+            </Grid>
+
+            <!-- Usual Feeling Chip Multi Select -->
+            <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
+
+            <Grid>
+                <ChipControl:SfChipGroup
+                ItemsSource="{Binding Feelings}"
+                SelectedItem="{Binding EditedUser.Feelings}"
+                ChipType="Filter" />
+            </Grid>
+
+            <!-- Mobility -->
+            <controls:DividerWithLabel LabelText="MOBILITY" />
+
+            <!-- GPS Settings -->
+
+            <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
+                                    ButtonText="Change location access" />
+
+            <!-- Save Button -->
+            <!--<buttons:SfButton Text="Save &amp; get started"
+                          Command="{Binding CreateUserCommand}" />-->
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

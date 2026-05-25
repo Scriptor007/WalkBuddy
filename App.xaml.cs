@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace WalkBuddy
+﻿namespace WalkBuddy
 {
     public partial class App : Application
     {

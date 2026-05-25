@@ -2,7 +2,7 @@ namespace WalkBuddy.Data
 {
     public static class Constants
     {
-        public const string DatabaseFilename = "AppSQLite.db3";
+        public const string DatabaseFilename = "WalkBuddySQLite.db3";
 
         public const SQLite.SQLiteOpenFlags Flags =
         // open the database in read/write mode
@@ -13,6 +13,6 @@ namespace WalkBuddy.Data
         SQLite.SQLiteOpenFlags.SharedCache;
 
         public static string DatabasePath =>
-            $"Data Source={Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename)}";
+            Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
     }
 }

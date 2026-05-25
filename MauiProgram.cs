@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Maui;
+using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
-using MauiIcons.Material;
+using WalkBuddy.Pages;
 
 namespace WalkBuddy
 {
@@ -12,7 +13,12 @@ namespace WalkBuddy
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkit(options =>
+                {
+#if WINDOWS
+                    options.SetShouldEnableSnackbarOnWindows(true);
+#endif
+                })
                 .ConfigureSyncfusionToolkit()
                 .UseMaterialMauiIcons()
                 .ConfigureMauiHandlers(handlers =>
@@ -29,19 +35,25 @@ namespace WalkBuddy
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("SegoeUI-Semibold.ttf", "SegoeSemibold");
+                    fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
+                    fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
-    		builder.Services.AddLogging(configure => configure.AddDebug());
+            builder.Logging.AddDebug();
+            builder.Services.AddLogging(configure => configure.AddDebug());
 #endif
 
             builder.Services.AddSingleton<CategoryRepository>();
-            builder.Services.AddSingleton<MainPageModel>();
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<UserRepository>();
+            builder.Services.AddSingleton<StaticDataService>();
 
+            builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
+            builder.Services.AddTransient<EditProfilePageModel>();
+
+            builder.Services.AddTransient<OnboardingPage>();
 
             return builder.Build();
         }

@@ -1,7 +1,5 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
 
 namespace WalkBuddy.Models
 {
@@ -11,5 +9,24 @@ namespace WalkBuddy.Models
         public int ID { get; set; }
 
         public string Username { get; set; } = string.Empty;
+
+        public string AdditionalInfo { get; set; } = string.Empty;
+
+        [Ignore]
+        public ObservableCollection<string> Interests { get; set; } = [];
+
+        public string InterestsString { get; set; } = string.Empty;
+
+        [Ignore]
+        public ObservableCollection<object> ChallengingStates { get; set; } = [];
+
+        public string ChallengingString { get; set; } = string.Empty;
+
+        [Ignore]
+        public ObservableCollection<object> PositiveStates { get; set; } = [];
+
+        public string PositiveString { get; set; } = string.Empty;
+
+        public string Mobility { get; set; } = string.Empty;
     }
 }
