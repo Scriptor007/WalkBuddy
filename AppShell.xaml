@@ -5,11 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:WalkBuddy.Pages"
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBehavior="Disabled"
     Title="WalkBuddy">
 
-    <ShellContent
-        Title="Onboarding"
-        ContentTemplate="{DataTemplate pages:OnboardingPage}"
-        Route="main" />
+    <TabBar>
+        <Tab Title="Homepage">
+            <ShellContent
+                x:Name="homepage"
+                Title="Homepage"
+                ContentTemplate="{DataTemplate pages:MainPage}"
+                Route="homepage" />
+        </Tab>
+        <Tab Title="Edit">
+            <ShellContent
+                x:Name="edit"
+                Title="Profile"
+                ContentTemplate="{DataTemplate pages:EditUserPage}"
+                Route="edit" />
+        </Tab>
+    </TabBar>
 </Shell>

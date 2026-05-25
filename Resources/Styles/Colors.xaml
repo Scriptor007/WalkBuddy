@@ -5,16 +5,16 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#4A6741</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="Secondary">#6E9E8F</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
 
     <Color x:Key="DarkBackground">#17171a</Color>
     <Color x:Key="LightOnDarkBackground">#C3C3C3</Color>
-    <Color x:Key="LightBackground">#F2F2F2</Color>
+    <Color x:Key="LightBackground">#EEF1EC</Color>
     <Color x:Key="DarkOnLightBackground">#0D0D0D</Color>
 
     <Color x:Key="LightSecondaryBackground">#E0E0E0</Color>
@@ -49,4 +49,16 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+    <Color x:Key="OnPrimary">#FFFFFF</Color>
+    <Color x:Key="PrimaryContainer">#D0E8CA</Color>
+    <Color x:Key="OnPrimaryContainer">#1A2E18</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceVariant">#EEF1EC</Color>
+    <Color x:Key="OnSurface">#1A2E18</Color>
+    <Color x:Key="OnSurfaceVariant">#7A8F78</Color>
+    <Color x:Key="Outline">#BFCFBC</Color>
+    <Color x:Key="OutlineVariant">#7A9E76</Color>
+    <Color x:Key="Background">#EEF1EC</Color>
+    <Color x:Key="OnBackground">#1A2E18</Color>
 </ResourceDictionary>

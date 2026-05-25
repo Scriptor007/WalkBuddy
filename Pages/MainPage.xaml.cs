@@ -1,7 +1,4 @@
-﻿using WalkBuddy.Models;
-using WalkBuddy.PageModels;
-
-namespace WalkBuddy.Pages
+﻿namespace WalkBuddy.Pages
 {
     public partial class MainPage : ContentPage
     {

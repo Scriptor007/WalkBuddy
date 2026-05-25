@@ -5,22 +5,217 @@
              xmlns:models="clr-namespace:WalkBuddy.Models"
              x:Class="WalkBuddy.Pages.OnboardingPage"
              x:DataType="pageModels:OnboardingPageModel"
-             Title="OnboardingPage">
-    
-    <VerticalStackLayout>
-        <Image Source="dotnet_bot.png" 
-               SemanticProperties.Description="Cute dotnet bot waving hi to you!" 
-               HeightRequest="200" />
+             xmlns:controls="clr-namespace:WalkBuddy.Pages.Controls"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:cards="clr-namespace:Syncfusion.Maui.Toolkit.Cards;assembly=Syncfusion.Maui.Toolkit"
+             Title="OnboardingPage"
+             Shell.TabBarIsVisible="False"
+             HideSoftInputOnTapped="True">
 
-        <Label
-            Text="Welcome"
-            Style="{StaticResource Headline}"
-            SemanticProperties.HeadingLevel="Level1" />
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
 
-        <Label
-            Text="Let's personalise your experience so every prompt feels right for you."
-            Style="{StaticResource SubHeadline}"
-            SemanticProperties.HeadingLevel="Level2"
-            SemanticProperties.Description="Let's personalise your experience so every prompt feels right for you." />
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <VerticalStackLayout Padding="20, 28, 20, 20"
+                                 Spacing="4">
+                <Border BackgroundColor="{StaticResource PrimaryContainer}"
+                        HeightRequest="64"
+                        WidthRequest="64" 
+                        StrokeShape="RoundRectangle 8, 8, 8, 8"
+                        StrokeThickness="0" >
+                    <Label Text="🌿"
+                           FontSize="30"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+
+            <Label
+                Text="Welcome"
+                FontSize="32"
+                TextColor="{StaticResource OnSurface}"
+                HorizontalOptions="Center"/>
+
+            <Label
+                Text="Let's personalise your experience so every prompt feels right for you."
+                TextColor="{StaticResource OnSurfaceVariant}"
+                FontSize="16"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="20, 20, 20, 32"
+                                 Spacing="32">
+                <!-- username input -->
+                <inputLayout:SfTextInputLayout Hint="Your name"
+                                               Margin="0, 0, 0, -20"
+                                               IsHintAlwaysFloated="True"
+                                               OutlineCornerRadius="8"
+                                               InputViewPadding="16, 3, 16, 0"
+                                               ContainerBackground="{StaticResource SurfaceVariant}"
+                                               ContainerType="Outlined"
+                                               ErrorText="Username is required"
+                                               HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke" Value="{StaticResource Outline}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke" Value="{StaticResource Primary}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Error">
+                                    <VisualState.Setters>
+                                        <Setter Property="Stroke" Value="Red"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                    <Entry Text="{Binding Username}"
+                           TextColor="{StaticResource OnSurface}"
+                           FontSize="14"
+                           x:Name="UsernameInput">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                            x:Name="NameValidator"
+                            Flags="ValidateOnUnfocused"
+                            MinimumLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </inputLayout:SfTextInputLayout>
+
+                <!-- About You Textbox -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="ABOUT YOU" />
+
+                    <inputLayout:SfTextInputLayout Hint="Tell us more"
+                                                   IsHintAlwaysFloated="true"
+                                                   ContainerType="Outlined"
+                                                   OutlineCornerRadius="8"
+                                                   InputViewPadding="16"
+                                                   MinimumHeightRequest="150"
+                                                   ReserveSpaceForAssistiveLabels="False">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Outline}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Primary}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                        <Editor AutoSize="TextChanges"
+                                Text="{Binding User.AdditionalInfo}"
+                                Placeholder="e.g. I love hearing birds, prefer quiter paths, find water calming..."
+                                PlaceholderColor="{StaticResource OnSurfaceVariant}"
+                                TextColor="{StaticResource OnSurface}"
+                                x:Name="InfoInput" />
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
+
+                <!-- Interest Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="INTERESTS" />
+
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Interests}"
+                            SelectedItem="{Binding User.Interests}"
+                            ChipType="Filter">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
+
+                <!-- Usual Feeling Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Challening states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
+
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding ChallengingStates}"
+                                SelectedItem="{Binding User.ChallengingStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Positive states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
+
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding PositiveStates}"
+                                SelectedItem="{Binding User.PositiveStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Mobility -->
+                <VerticalStackLayout Spacing="8">
+                    <controls:DividerWithLabel LabelText="MOBILITY" />
+
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Mobility}"
+                            SelectedItem="{Binding User.Mobility}"
+                            ChipType="Choice">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
+
+                <!-- GPS Settings -->
+
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="LOCATION" />
+                    
+                    <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}" />
+                </VerticalStackLayout>
+
+                <!-- Save Button -->
+                <buttons:SfButton Text="Save &amp; get started"
+                                  Command="{Binding CreateUserCommand}"
+                                  Background="{StaticResource Primary}"
+                                  TextColor="{StaticResource OnPrimary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium" />
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
