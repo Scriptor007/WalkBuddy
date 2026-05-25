@@ -10,7 +10,8 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              x:DataType="pageModels:EditProfilePageModel"
              x:Name="EditPage"
-             Title="EditProfilePage">
+             Title="EditProfilePage"
+             HideSoftInputOnTapped="True">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
@@ -27,66 +28,120 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <!-- username input -->
-            <inputLayout:SfTextInputLayout Hint="Username"
-                                           IsHintAlwaysFloated="True"
-                                           ContainerType="Outlined"
-                                           ErrorText="Username is required"
-                                           HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
-                <Entry Text="{Binding EditedUser.Username}"
-                       Placeholder="{Binding CurrentUser.Username}">
-                    <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior
+            <HorizontalStackLayout>
+                <Label Text="Your profile" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Padding="20, 20, 20, 32"
+                                 Spacing="32">
+                <!-- username input -->
+                <inputLayout:SfTextInputLayout Hint="Username"
+                                               Style="{StaticResource UsernameInput}"
+                                               ErrorText="Username is required"
+                                               HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
+                    <Entry Text="{Binding CurrentUser.Username}"
+                           TextColor="{StaticResource OnSurface}"
+                           FontSize="14">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
                         x:Name="NameValidator"
                         Flags="ValidateOnUnfocused"
                         MinimumLength="1" />
-                    </Entry.Behaviors>
-                </Entry>
-            </inputLayout:SfTextInputLayout>
+                        </Entry.Behaviors>
+                    </Entry>
+                </inputLayout:SfTextInputLayout>
 
-            <!-- About You Textbox -->
-            <controls:DividerWithLabel LabelText="TELLS US MORE" />
+                <!-- About You Textbox -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="ABOUT YOU" />
 
-            <inputLayout:SfTextInputLayout Hint="About You"
-                                           IsHintAlwaysFloated="True"
-                                           ContainerType="Outlined">
-                <Editor AutoSize="TextChanges"
-                        Text="{Binding EditedUser.AdditionalInfo}"
-                        Placeholder="{Binding CurrentUser.AdditionalInfo}" />
-            </inputLayout:SfTextInputLayout>
+                    <inputLayout:SfTextInputLayout Hint="Tell us more"
+                                                   Style="{StaticResource AboutYouInput}">
+                        <Editor Style="{StaticResource AboutYouEditor}"
+                                Text="{Binding CurrentUser.AdditionalInfo}" />
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
 
-            <!-- Interest Chip Multi Select -->
-            <controls:DividerWithLabel LabelText="INTERESTS" />
+                <!-- Interest Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="INTERESTS" />
 
-            <Grid>
-                <ChipControl:SfChipGroup
-                    ItemsSource="{Binding Interests}"
-                    SelectedItem="{Binding EditedUser.Interests}"
-                    ChipType="Filter" />
-            </Grid>
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Interests}"
+                            SelectedItem="{Binding CurrentUser.Interests}"
+                            ChipType="Filter">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
 
-            <!-- Usual Feeling Chip Multi Select -->
-            <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
+                <!-- Usual Feeling Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
 
-            <Grid>
-                <ChipControl:SfChipGroup
-                ItemsSource="{Binding Feelings}"
-                SelectedItem="{Binding EditedUser.Feelings}"
-                ChipType="Filter" />
-            </Grid>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Challening states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
 
-            <!-- Mobility -->
-            <controls:DividerWithLabel LabelText="MOBILITY" />
+                        <!-- Challening States -->
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding ChallengingStates}"
+                                SelectedItem="{Binding CurrentUser.ChallengingStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+                    
+                    <!-- Positive States -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Positive states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
 
-            <!-- GPS Settings -->
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding PositiveStates}"
+                                SelectedItem="{Binding CurrentUser.PositiveStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
 
-            <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
-                                    ButtonText="Change location access" />
+                <!-- Mobility -->
+                <VerticalStackLayout Spacing="8">
+                    <controls:DividerWithLabel LabelText="MOBILITY" />
 
-            <!-- Save Button -->
-            <!--<buttons:SfButton Text="Save &amp; get started"
-                          Command="{Binding CreateUserCommand}" />-->
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Mobility}"
+                            SelectedItem="{Binding CurrentUser.Mobility}"
+                            ChipType="Choice">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
 
+                <!-- GPS Settings -->
+
+                <VerticalStackLayout Spacing="16">
+                    <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
+                                            ButtonText="Change location access" />
+                </VerticalStackLayout>
+
+                <!-- Save Button -->
+                <buttons:SfButton Text="Update profile"
+                                  Command="{Binding UpdateUserCommand}"
+                                  Background="{StaticResource Primary}"
+                                  TextColor="{StaticResource OnPrimary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium"/>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -1,16 +1,19 @@
-﻿using SQLite;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
 using System.Collections.ObjectModel;
 
 namespace WalkBuddy.Models
 {
-    public class User
+    public partial class User : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        public string Username { get; set; } = string.Empty;
+        [ObservableProperty]
+        private string _username = string.Empty;
 
-        public string AdditionalInfo { get; set; } = string.Empty;
+        [ObservableProperty]
+        private string _additionalInfo = string.Empty;
 
         [Ignore]
         public ObservableCollection<string> Interests { get; set; } = [];
@@ -18,15 +21,16 @@ namespace WalkBuddy.Models
         public string InterestsString { get; set; } = string.Empty;
 
         [Ignore]
-        public ObservableCollection<object> ChallengingStates { get; set; } = [];
+        public ObservableCollection<string> ChallengingStates { get; set; } = [];
 
         public string ChallengingString { get; set; } = string.Empty;
 
         [Ignore]
-        public ObservableCollection<object> PositiveStates { get; set; } = [];
+        public ObservableCollection<string> PositiveStates { get; set; } = [];
 
         public string PositiveString { get; set; } = string.Empty;
 
-        public string Mobility { get; set; } = string.Empty;
+        [ObservableProperty]
+        private string _mobility = string.Empty;
     }
 }

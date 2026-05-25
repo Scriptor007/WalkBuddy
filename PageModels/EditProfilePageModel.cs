@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -14,60 +16,94 @@ namespace WalkBuddy.PageModels
 
         private readonly StaticDataService _staticDataService;
 
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+        private bool _isBusy;
+
         [ObservableProperty]
         private User _currentUser = new();
 
-        [ObservableProperty]
-        private User _editedUser = new();
-
-        private bool _isInitialized = false;
-
         public List<string> Interests { get; set; } = [];
-
-        public List<string> Feelings { get; set; } = [];
+        public List<string> ChallengingStates { get; set; } = [];
+        public List<string> PositiveStates { get; set; } = [];
+        public List<string> Mobility { get; set; } = [];
 
         public EditProfilePageModel(UserRepository userRepository, StaticDataService staticDataService)
         {
             _userRepository = userRepository;
             _staticDataService = staticDataService;
             Interests = _staticDataService.Interests;
-            Feelings = _staticDataService.Feelings;
+            ChallengingStates = _staticDataService.ChallengingStates;
+            PositiveStates = _staticDataService.PositiveStates;
+            Mobility = _staticDataService.Mobility;
         }
 
         [RelayCommand]
         private async Task InitialUserLoad()
         {
-            if (_isInitialized)
-            {
-                await SetEditUser();
+            if (_isBusy)
                 return;
-            }
 
-            _isInitialized = true;
-            CurrentUser = await _userRepository.GetUserAsync();
-            await SetEditUser();
+            _isBusy = true;
+
+            try
+            {
+                var user = await _userRepository.GetUserAsync();
+
+                BuildUser(user);
+            }
+            finally
+            {
+                _isBusy = false;
+            }
         }
 
-        private async Task SetEditUser()
+        private void BuildUser(User user)
         {
-            if (CurrentUser.InterestsString != null)
+            CurrentUser.ID = user.ID;
+            CurrentUser.Username = user.Username;
+            CurrentUser.AdditionalInfo = user.AdditionalInfo;
+            CurrentUser.Mobility = user.Mobility;
+
+            CurrentUser.Interests.Clear();
+            foreach (var item in user.Interests)
             {
-                EditedUser.Interests.Clear();
-                string[] interests = CurrentUser.InterestsString.Split(',');
-                foreach (var interest in interests)
-                {
-                    EditedUser.Interests.Add(interest);
-                }
+                CurrentUser.Interests.Add(item);
             }
 
-            if (CurrentUser.FeelingsString != null)
+            CurrentUser.PositiveStates.Clear();
+            foreach (var item in user.PositiveStates)
             {
-                EditedUser.Feelings.Clear();
-                string[] feelings = CurrentUser.FeelingsString.Split(',');
-                foreach (var feeling in feelings)
-                {
-                    EditedUser.Feelings.Add(feeling);
-                }
+                CurrentUser.PositiveStates.Add(item);
+            }
+
+            CurrentUser.ChallengingStates.Clear();
+            foreach (var item in user.ChallengingStates)
+            {
+                CurrentUser.ChallengingStates.Add(item);
+            }
+
+        }
+
+
+        [RelayCommand]
+        private async Task UpdateUser()
+        {
+            if (_isBusy)
+                return;
+
+            _isBusy = true;
+
+            try
+            {
+                await _userRepository.SaveUserAsync(CurrentUser);
+                var toast = Toast.Make("Successfully updated your account", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                await toast.Show(_cancellationTokenSource.Token);
+                await Shell.Current.GoToAsync("//homepage");
+            }
+            finally
+            {
+                _isBusy = false;
             }
         }
 

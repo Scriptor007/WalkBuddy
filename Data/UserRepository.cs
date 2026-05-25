@@ -1,4 +1,6 @@
 ﻿using SQLite;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using WalkBuddy.Models;
 
 namespace WalkBuddy.Data
@@ -14,8 +16,6 @@ namespace WalkBuddy.Data
 
         public async Task<int> SaveUserAsync(User user)
         {
-            SQLiteAsyncConnection db = await _databaseService.Init();
-
             if (user.Interests.Count > 0)
                 user.InterestsString = string.Join(",", user.Interests);
 
@@ -24,6 +24,8 @@ namespace WalkBuddy.Data
 
             if (user.PositiveStates.Count > 0)
                 user.PositiveString = string.Join(",", user.PositiveStates);
+
+            SQLiteAsyncConnection db = await _databaseService.Init();
 
             if (user.ID != 0)
                 return await db.UpdateAsync(user);
@@ -36,8 +38,16 @@ namespace WalkBuddy.Data
             SQLiteAsyncConnection db = await _databaseService.Init();
 
             User user = await db.Table<User>().FirstOrDefaultAsync();
+            MapToObservableCollections(user);
 
-            if (user.InterestsString != null)
+            return user;
+        }
+
+        private void MapToObservableCollections(User user)
+        {
+            user.Interests.Clear();
+
+            if (!string.IsNullOrWhiteSpace(user.InterestsString))
             {
                 string[] interests = user.InterestsString.Split(',');
                 foreach (var interest in interests)
@@ -46,16 +56,27 @@ namespace WalkBuddy.Data
                 }
             }
 
-            if (user.FeelingsString != null)
+            user.PositiveStates.Clear();
+
+            if (user.PositiveString != null)
             {
-                string[] feelings = user.FeelingsString.Split(',');
-                foreach (var feeling in feelings)
+                string[] posStates = user.PositiveString.Split(',');
+                foreach (var state in posStates)
                 {
-                    user.Feelings.Add(feeling);
+                    user.PositiveStates.Add(state);
                 }
             }
 
-            return user;
+            user.ChallengingStates.Clear();
+
+            if (user.ChallengingString != null)
+            {
+                string[] challStates = user.ChallengingString.Split(',');
+                foreach (var state in challStates)
+                {
+                    user.ChallengingStates.Add(state);
+                }
+            }
         }
     }
 }
