@@ -450,7 +450,5 @@
         <Setter Property="SelectedChipTextColor" Value="{StaticResource OnPrimary}" />
         <Setter Property="SelectionIndicatorColor" Value="{StaticResource OnPrimary}" />
         <Setter Property="ChipFontFamily" Value="RobotoMedium" />
-        <Setter Property="ChipPadding" Value="0" />
     </Style>
-
 </ResourceDictionary>

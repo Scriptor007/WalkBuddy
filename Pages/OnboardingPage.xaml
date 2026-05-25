@@ -12,7 +12,8 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:cards="clr-namespace:Syncfusion.Maui.Toolkit.Cards;assembly=Syncfusion.Maui.Toolkit"
              Title="OnboardingPage"
-             Shell.TabBarIsVisible="False">
+             Shell.TabBarIsVisible="False"
+             HideSoftInputOnTapped="True">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
@@ -49,7 +50,8 @@
                 Text="Let's personalise your experience so every prompt feels right for you."
                 TextColor="{StaticResource OnSurfaceVariant}"
                 FontSize="16"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Padding="20, 20, 20, 32"
@@ -87,7 +89,8 @@
                     </VisualStateManager.VisualStateGroups>
                     <Entry Text="{Binding Username}"
                            TextColor="{StaticResource OnSurface}"
-                           FontSize="14">
+                           FontSize="14"
+                           x:Name="UsernameInput">
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior
                             x:Name="NameValidator"
@@ -128,7 +131,8 @@
                                 Text="{Binding User.AdditionalInfo}"
                                 Placeholder="e.g. I love hearing birds, prefer quiter paths, find water calming..."
                                 PlaceholderColor="{StaticResource OnSurfaceVariant}"
-                                TextColor="{StaticResource OnSurface}"/>
+                                TextColor="{StaticResource OnSurface}"
+                                x:Name="InfoInput" />
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
 
@@ -136,12 +140,14 @@
                 <VerticalStackLayout Spacing="16">
                     <controls:DividerWithLabel LabelText="INTERESTS" />
 
-                    <Grid>
-                        <ChipControl:SfChipGroup
+                    <ChipControl:SfChipGroup
                             ItemsSource="{Binding Interests}"
                             SelectedItem="{Binding User.Interests}"
-                            ChipType="Filter" />
-                    </Grid>
+                            ChipType="Filter">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
                 </VerticalStackLayout>
 
                 <!-- Usual Feeling Chip Multi Select -->
@@ -153,25 +159,29 @@
                                FontSize="12"
                                TextColor="{StaticResource OnSurface}" />
 
-                        <Grid>
-                            <ChipControl:SfChipGroup
+                        <ChipControl:SfChipGroup
                                 ItemsSource="{Binding ChallengingStates}"
                                 SelectedItem="{Binding User.ChallengingStates}"
-                                ChipType="Filter" />
-                        </Grid>
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Positive states"
                                FontSize="12"
                                TextColor="{StaticResource OnSurface}" />
-                        
-                        <Grid>
-                            <ChipControl:SfChipGroup
+
+                        <ChipControl:SfChipGroup
                                 ItemsSource="{Binding PositiveStates}"
                                 SelectedItem="{Binding User.PositiveStates}"
-                                ChipType="Filter" />
-                        </Grid>
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
 
@@ -179,12 +189,14 @@
                 <VerticalStackLayout Spacing="8">
                     <controls:DividerWithLabel LabelText="MOBILITY" />
 
-                    <Grid>
-                        <ChipControl:SfChipGroup
+                    <ChipControl:SfChipGroup
                             ItemsSource="{Binding Mobility}"
                             SelectedItem="{Binding User.Mobility}"
-                            ChipType="Choice" />
-                    </Grid>
+                            ChipType="Choice">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
                 </VerticalStackLayout>
 
                 <!-- GPS Settings -->
