@@ -6,10 +6,16 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:WalkBuddy.Pages"
     Shell.FlyoutBehavior="Disabled"
-    Title="WalkBuddy">
+    Title="WalkBuddy"
+    Shell.TabBarTitleColor="{StaticResource OnSurface}">
 
     <TabBar>
-        <Tab Title="Homepage">
+        <Tab Title="Start">
+            <Tab.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xE88A;"
+                                 Color="{StaticResource OnSurfaceVariant}" />
+            </Tab.Icon>
             <ShellContent
                 x:Name="homepage"
                 Title="Homepage"
@@ -17,6 +23,11 @@
                 Route="homepage" />
         </Tab>
         <Tab Title="Edit">
+            <Tab.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                     Glyph="&#xE8B8;"
+                     Color="{StaticResource OnSurfaceVariant}" />
+            </Tab.Icon>
             <ShellContent
                 x:Name="edit"
                 Title="Profile"
