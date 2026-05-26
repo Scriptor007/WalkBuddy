@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WalkBuddy.Pages.EditProfilePage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:controls="clr-namespace:WalkBuddy.Pages.Controls"
+             xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             x:DataType="pageModels:EditProfilePageModel"
+             x:Name="EditPage"
+             Title="EditProfilePage"
+             HideSoftInputOnTapped="True">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference EditPage}}"
+            EventName="Appearing"
+            Command="{Binding InitialUserLoadCommand}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <HorizontalStackLayout Padding="20, 28, 20, 20">
+                <Label Text="Your profile"
+                       FontSize="32"
+                       TextColor="{StaticResource OnSurface}" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Padding="20, 20, 20, 32"
+                                 Spacing="32">
+                <!-- username input -->
+                <inputLayout:SfTextInputLayout Hint="Username"
+                                               Style="{StaticResource UsernameInput}"
+                                               ErrorText="Username is required"
+                                               HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
+                    <Entry Text="{Binding Username}"
+                           TextColor="{StaticResource OnSurface}"
+                           Placeholder="{Binding CurrentUser.Username}"
+                           FontSize="14">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="NameValidator"
+                                Flags="ValidateOnValueChanged"
+                                MinimumLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </inputLayout:SfTextInputLayout>
+
+                <!-- About You Textbox -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="ABOUT YOU" />
+
+                    <inputLayout:SfTextInputLayout Hint="Tell us more"
+                                                   Style="{StaticResource AboutYouInput}">
+                        <Editor Style="{StaticResource AboutYouEditor}"
+                                Text="{Binding CurrentUser.AdditionalInfo}"
+                                Placeholder="{Binding PlaceholderInfo}"/>
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
+
+                <!-- Interest Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="INTERESTS" />
+
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Interests}"
+                            SelectedItem="{Binding CurrentUser.Interests}"
+                            ChipType="Filter">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
+
+                <!-- Usual Feeling Chip Multi Select -->
+                <VerticalStackLayout Spacing="16">
+                    <controls:DividerWithLabel LabelText="HOW YOU USUALLY FEEL" />
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Challening states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
+
+                        <!-- Challening States -->
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding ChallengingStates}"
+                                SelectedItem="{Binding CurrentUser.ChallengingStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+                    
+                    <!-- Positive States -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Positive states"
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurface}" />
+
+                        <ChipControl:SfChipGroup
+                                ItemsSource="{Binding PositiveStates}"
+                                SelectedItem="{Binding CurrentUser.PositiveStates}"
+                                ChipType="Filter">
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap" />
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Mobility -->
+                <VerticalStackLayout Spacing="8">
+                    <controls:DividerWithLabel LabelText="MOBILITY" />
+
+                    <ChipControl:SfChipGroup
+                            ItemsSource="{Binding Mobility}"
+                            SelectedItem="{Binding CurrentUser.Mobility}"
+                            ChipType="Choice">
+                        <ChipControl:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </ChipControl:SfChipGroup.ChipLayout>
+                    </ChipControl:SfChipGroup>
+                </VerticalStackLayout>
+
+                <!-- GPS Settings -->
+
+                <VerticalStackLayout Spacing="16">
+                    <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
+                                            ButtonText="Change location access" />
+                </VerticalStackLayout>
+
+                <!-- Save Button -->
+                <buttons:SfButton Text="Update profile"
+                                  Command="{Binding UpdateUserCommand}"
+                                  Background="{StaticResource Primary}"
+                                  TextColor="{StaticResource OnPrimary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

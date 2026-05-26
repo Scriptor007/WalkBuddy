@@ -51,8 +51,10 @@ namespace WalkBuddy
 
             builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
+            builder.Services.AddTransient<EditProfilePageModel>();
 
             builder.Services.AddTransient<OnboardingPage>();
+            builder.Services.AddTransient<EditProfilePage>();
 
             return builder.Build();
         }

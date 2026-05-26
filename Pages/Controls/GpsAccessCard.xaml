@@ -2,7 +2,10 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WalkBuddy.Pages.Controls.GpsAccessCard"
-             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit">
+             xmlns:local="clr-namespace:WalkBuddy.Pages.Controls"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             x:DataType="local:GpsAccessCard"
+             x:Name="GPS">
 
     <VerticalStackLayout BackgroundColor="{StaticResource SurfaceVariant}">
         <Border
@@ -20,8 +23,9 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Padding="16">
-                    <buttons:SfButton Text="Allow location access"
+                    <buttons:SfButton Text="{Binding ButtonText, Source={x:Reference GPS}}"
                                       x:Name="SfButton"
+                                      Command="{Binding AccessCommand, Source={x:Reference GPS}}"
                                       Background="{StaticResource Primary}"
                                       TextColor="{StaticResource OnPrimary}"
                                       CornerRadius="8"

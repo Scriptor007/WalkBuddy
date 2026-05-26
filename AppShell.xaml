@@ -20,7 +20,7 @@
             <ShellContent
                 x:Name="edit"
                 Title="Profile"
-                ContentTemplate="{DataTemplate pages:EditUserPage}"
+                ContentTemplate="{DataTemplate pages:EditProfilePage}"
                 Route="edit" />
         </Tab>
     </TabBar>
