@@ -6,31 +6,33 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:WalkBuddy.Pages"
     Shell.FlyoutBehavior="Disabled"
-    Title="WalkBuddy">
+    Title="WalkBuddy"
+    Shell.TabBarTitleColor="{StaticResource OnSurface}">
 
     <TabBar>
-        <Tab Title="Home">
+        <Tab Title="Start">
+            <Tab.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xE88A;"
+                                 Color="{StaticResource OnSurfaceVariant}" />
+            </Tab.Icon>
             <ShellContent
-                Title="Home"
-                ContentTemplate="{DataTemplate pages:StartSession}"
+                x:Name="homepage"
+                Title="Start"
+                ContentTemplate="{DataTemplate pages:MainPage}"
                 Route="start" />
         </Tab>
-        <Tab Title="Sessions">
+        <Tab Title="Edit">
+            <Tab.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                     Glyph="&#xE8B8;"
+                     Color="{StaticResource OnSurfaceVariant}" />
+            </Tab.Icon>
             <ShellContent
-                Title="Sessions"
-                ContentTemplate="{DataTemplate pages:StartSession}"
-                Route="sessions" />
-        </Tab>
-        <Tab Title="Settings">
-            <ShellContent
-                Title="Settings"
-                ContentTemplate="{DataTemplate pages:StartSession}"
-                Route="settings" />
+                x:Name="edit"
+                Title="Profile"
+                ContentTemplate="{DataTemplate pages:EditProfilePage}"
+                Route="edit" />
         </Tab>
     </TabBar>
-
-    <ShellContent
-        Title="Onboarding"
-        ContentTemplate="{DataTemplate pages:OnboardingPage}"
-        Route="onboarding" />
 </Shell>

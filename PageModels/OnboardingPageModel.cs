@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
 using WalkBuddy.Models;
 
 namespace WalkBuddy.PageModels
@@ -12,6 +13,8 @@ namespace WalkBuddy.PageModels
         private readonly StaticDataService _staticDataService;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+        private bool _isBusy;
 
         [ObservableProperty]
         private User _user = new();
@@ -38,13 +41,24 @@ namespace WalkBuddy.PageModels
         [RelayCommand(CanExecute = nameof(CanSaveUser))]
         private async Task CreateUser()
         {
-            User.Username = Username;
-            await _userRepository.SaveUserAsync(User);
-            Preferences.Default.Set("isRegistered", true);
-            var toast = Toast.Make("Successfully saved data", CommunityToolkit.Maui.Core.ToastDuration.Short);
-            await toast.Show(_cancellationTokenSource.Token);
-            await Shell.Current.GoToAsync("//start");
+            if (_isBusy)
+                return;
 
+            _isBusy = true;
+
+            try
+            {
+                User.Username = Username;
+                await _userRepository.SaveUserAsync(User);
+                Preferences.Default.Set("isRegistered", true);
+                var toast = Toast.Make("Successfully saved data", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                await toast.Show(_cancellationTokenSource.Token);
+                await Shell.Current.GoToAsync("//homepage");
+            }
+            finally
+            {
+                _isBusy = false;
+            }
         }
 
         [RelayCommand]
