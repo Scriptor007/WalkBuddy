@@ -108,7 +108,7 @@ namespace WalkBuddy.PageModels
                 await _userRepository.SaveUserAsync(CurrentUser);
                 var toast = Toast.Make("Successfully updated your account", CommunityToolkit.Maui.Core.ToastDuration.Short);
                 await toast.Show(_cancellationTokenSource.Token);
-                await Shell.Current.GoToAsync("//homepage");
+                await Shell.Current.GoToAsync("//start");
             }
             finally
             {

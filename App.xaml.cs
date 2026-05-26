@@ -15,22 +15,7 @@ namespace WalkBuddy
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var onboardingDone = Preferences.Get(OnboardingDoneKey, false);
-            Page root = onboardingDone
-                ? new AppShell()
-                : new NavigationPage(new Pages.OnboardingPage());
-
-            return new Window(root);
-        }
-
-        public static void MarkOnboardingComplete()
-        {
-            Preferences.Set(OnboardingDoneKey, true);
-            var window = Current?.Windows.FirstOrDefault();
-            if (window != null)
-            {
-                window.Page = new AppShell();
-            }
+            return new Window(new AppShell());
         }
     }
 }

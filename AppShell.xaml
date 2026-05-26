@@ -9,6 +9,11 @@
     Title="WalkBuddy"
     Shell.TabBarTitleColor="{StaticResource OnSurface}">
 
+    <ShellContent Title="Onboarding"
+                  Route="onboarding"
+                  ContentTemplate="{DataTemplate pages:OnboardingPage}"
+                  Shell.TabBarIsVisible="False" />
+
     <TabBar>
         <Tab Title="Start">
             <Tab.Icon>
@@ -17,22 +22,31 @@
                                  Color="{StaticResource OnSurfaceVariant}" />
             </Tab.Icon>
             <ShellContent
-                x:Name="homepage"
                 Title="Start"
-                ContentTemplate="{DataTemplate pages:MainPage}"
+                ContentTemplate="{DataTemplate pages:StartSession}"
                 Route="start" />
         </Tab>
-        <Tab Title="Edit">
+        <Tab Title="Sessions">
+            <Tab.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                     Glyph="&#xE8B5;"
+                     Color="{StaticResource OnSurfaceVariant}" />
+            </Tab.Icon>
+            <ShellContent
+                Title="Sessions"
+                ContentTemplate="{DataTemplate pages:MainPage}"
+                Route="sessions" />
+        </Tab>
+        <Tab Title="Settings">
             <Tab.Icon>
                 <FontImageSource FontFamily="MaterialSymbols"
                      Glyph="&#xE8B8;"
                      Color="{StaticResource OnSurfaceVariant}" />
             </Tab.Icon>
             <ShellContent
-                x:Name="edit"
-                Title="Profile"
+                Title="Settings"
                 ContentTemplate="{DataTemplate pages:EditProfilePage}"
-                Route="edit" />
+                Route="settings" />
         </Tab>
     </TabBar>
 </Shell>

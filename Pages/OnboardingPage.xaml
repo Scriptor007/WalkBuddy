@@ -11,11 +11,8 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              Title="OnboardingPage"
              Shell.TabBarIsVisible="False"
-             HideSoftInputOnTapped="True">
-
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
-    </Shell.BackButtonBehavior>
+             HideSoftInputOnTapped="True"
+             Shell.BackButtonBehavior="{BackButtonBehavior IsVisible=False, IsEnabled=False}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -162,7 +159,6 @@
                 <!-- Save Button -->
                 <buttons:SfButton Text="Save &amp; get started"
                                   Command="{Binding CreateUserCommand}"
-                                  Clicked="FinishOnboarding_Clicked"
                                   Background="{StaticResource Primary}"
                                   TextColor="{StaticResource OnPrimary}"
                                   CornerRadius="8"
