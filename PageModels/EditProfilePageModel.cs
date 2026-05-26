@@ -23,6 +23,13 @@ namespace WalkBuddy.PageModels
         [ObservableProperty]
         private User _currentUser = new();
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(UpdateUserCommand))]
+        private string _username = string.Empty;
+
+        [ObservableProperty]
+        private string _placeholderInfo = string.Empty;
+
         public List<string> Interests { get; set; } = [];
         public List<string> ChallengingStates { get; set; } = [];
         public List<string> PositiveStates { get; set; } = [];
@@ -51,6 +58,8 @@ namespace WalkBuddy.PageModels
                 var user = await _userRepository.GetUserAsync();
 
                 BuildUser(user);
+                Username = CurrentUser.Username;
+                PlaceholderInfo = CurrentUser.AdditionalInfo;
             }
             finally
             {
@@ -81,12 +90,11 @@ namespace WalkBuddy.PageModels
             foreach (var item in user.ChallengingStates)
             {
                 CurrentUser.ChallengingStates.Add(item);
-            }
-
+            } 
         }
 
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanUpdateUser))]
         private async Task UpdateUser()
         {
             if (_isBusy)
@@ -96,6 +104,7 @@ namespace WalkBuddy.PageModels
 
             try
             {
+                CurrentUser.Username = Username;
                 await _userRepository.SaveUserAsync(CurrentUser);
                 var toast = Toast.Make("Successfully updated your account", CommunityToolkit.Maui.Core.ToastDuration.Short);
                 await toast.Show(_cancellationTokenSource.Token);
@@ -112,5 +121,7 @@ namespace WalkBuddy.PageModels
         {
             AppInfo.Current.ShowSettingsUI();
         }
+
+        private bool CanUpdateUser() => !string.IsNullOrWhiteSpace(Username);
     }
 }

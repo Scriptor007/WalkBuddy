@@ -59,27 +59,6 @@
                                                Style="{StaticResource UsernameInput}"
                                                ErrorText="Username is required"
                                                HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="{StaticResource Outline}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState Name="Focused">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="{StaticResource Primary}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState Name="Error">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="Red"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </VisualStateManager.VisualStateGroups>
                     <Entry Text="{Binding Username}"
                            TextColor="{StaticResource OnSurface}"
                            FontSize="14"
@@ -87,7 +66,7 @@
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior
                             x:Name="NameValidator"
-                            Flags="ValidateOnUnfocused"
+                            Flags="ValidateOnValueChanged"
                             MinimumLength="1" />
                         </Entry.Behaviors>
                     </Entry>

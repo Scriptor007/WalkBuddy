@@ -28,8 +28,10 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <HorizontalStackLayout>
-                <Label Text="Your profile" />
+            <HorizontalStackLayout Padding="20, 28, 20, 20">
+                <Label Text="Your profile"
+                       FontSize="32"
+                       TextColor="{StaticResource OnSurface}" />
             </HorizontalStackLayout>
 
             <VerticalStackLayout Padding="20, 20, 20, 32"
@@ -39,14 +41,15 @@
                                                Style="{StaticResource UsernameInput}"
                                                ErrorText="Username is required"
                                                HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
-                    <Entry Text="{Binding CurrentUser.Username}"
+                    <Entry Text="{Binding Username}"
                            TextColor="{StaticResource OnSurface}"
+                           Placeholder="{Binding CurrentUser.Username}"
                            FontSize="14">
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior
-                        x:Name="NameValidator"
-                        Flags="ValidateOnUnfocused"
-                        MinimumLength="1" />
+                                x:Name="NameValidator"
+                                Flags="ValidateOnValueChanged"
+                                MinimumLength="1" />
                         </Entry.Behaviors>
                     </Entry>
                 </inputLayout:SfTextInputLayout>
@@ -58,7 +61,8 @@
                     <inputLayout:SfTextInputLayout Hint="Tell us more"
                                                    Style="{StaticResource AboutYouInput}">
                         <Editor Style="{StaticResource AboutYouEditor}"
-                                Text="{Binding CurrentUser.AdditionalInfo}" />
+                                Text="{Binding CurrentUser.AdditionalInfo}"
+                                Placeholder="{Binding PlaceholderInfo}"/>
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
 
