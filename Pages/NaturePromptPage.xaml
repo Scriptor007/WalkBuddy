@@ -6,45 +6,100 @@
              x:Class="WalkBuddy.Pages.NaturePromptPage"
              Title="Your walk">
     <ScrollView>
-        <VerticalStackLayout Padding="20,14,20,28" Spacing="16">
+        <VerticalStackLayout>
 
-            <Grid ColumnDefinitions="*,Auto">
-                <Label Text="Your walk" FontSize="17" FontAttributes="Bold" TextColor="#1A1A1A" />
-                <Label Grid.Column="1" Text="22 min" FontSize="12" TextColor="#AAAAAA" />
+            <Grid ColumnDefinitions="*,Auto"
+                  Padding="20, 16, 20, 8">
+                <Label Text="Your walk"
+                       TextColor="{StaticResource OnSurface}"
+                       FontSize="16" />
+                <Label Grid.Column="1" 
+                       Text="22 min" 
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       FontSize="16" />
             </Grid>
 
-            <Border Stroke="#E4E4E4" Background="#FFFFFF" Padding="12,6"
+            <!--<Border Stroke="#E4E4E4" Background="#FFFFFF" Padding="12,6"
                     StrokeShape="RoundRectangle 18" HorizontalOptions="Start">
                 <Label Text="Feeling: Stressed" FontSize="12" TextColor="#666666" />
-            </Border>
-
-            <Border Stroke="#E8E8E8" Background="#F8F8F8" Padding="20"
-                    StrokeShape="RoundRectangle 18">
-                <Grid>
-                    <Label Text="Notice the colours around you. Find one that stands out and follow it with your eyes."
-                           FontSize="18" TextColor="#1A1A1A" LineHeight="1.6" />
-                    <Border Background="#FFFFFF" Stroke="#E0E0E0" WidthRequest="44" HeightRequest="44"
-                            StrokeShape="RoundRectangle 22" HorizontalOptions="End" VerticalOptions="Start">
-                        <Label Text="" HorizontalOptions="Center" VerticalOptions="Center" />
-                    </Border>
+            </Border>-->
+            <VerticalStackLayout Spacing="16"
+                                 Padding="20">
+                
+                <Grid ColumnDefinitions="Auto, *">
+                    <chips:SfChip Grid.Column="0"
+                                  Text="Feeling: Stressed"
+                                  Stroke="{StaticResource Outline}"
+                                  CornerRadius="48"
+                                  FontFamily="RobotoMedium"
+                                  TextColor="{StaticResource OnSurfaceVariant}"
+                                  FontSize="11" />
                 </Grid>
-            </Border>
 
-            <Label Text="How are you feeling now?"
-                   FontSize="12" FontAttributes="Bold" TextColor="#AAAAAA"
-                   TextTransform="Uppercase" />
 
-            <chips:SfChipGroup>
-                <chips:SfChip Text="Stressed" />
-                <chips:SfChip Text="Anxious" />
-                <chips:SfChip Text="Sad" />
-                <chips:SfChip Text="Neutral" />
-                <chips:SfChip Text="Content" />
-            </chips:SfChipGroup>
+                <Border Stroke="{StaticResource Outline}" 
+                        Padding="16"
+                        StrokeShape="RoundRectangle 8">
+                    <Grid>
+                        <Label Text="Notice the colours around you. Find one that stands out - it could be anything. Follow it with your eys until it leads somewhere unexpected."
+                               FontSize="22" 
+                               TextColor="{StaticResource OnSurfaceVariant}"
+                               VerticalTextAlignment="Center" />
+                        <Border 
+                                Stroke="{StaticResource Outline}" 
+                                WidthRequest="40" 
+                                HeightRequest="40"
+                                StrokeShape="Ellipse"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start">
+                            <Label Text="&#xE050;"
+                                   FontFamily="MaterialSymbols"
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource OnSurfaceVariant}"
+                                   FontSize="24" />
+                        </Border>
+                    </Grid>
+                </Border>
 
-            <buttons:SfButton Text="New prompt" HeightRequest="52" CornerRadius="14" />
-            <buttons:SfButton Text="End session" HeightRequest="48" CornerRadius="14"
-                              Clicked="EndSession_Clicked" />
+                <Label Text="Go explore. Come back when you're ready."
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       FontSize="11"
+                       HorizontalOptions="Center"/>
+
+
+                <buttons:SfButton Text="Done with this prompt"
+                                  Background="{StaticResource Primary}"
+                                  TextColor="{StaticResource OnPrimary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium" />
+
+                <buttons:SfButton Text="New prompt"
+                                  Background="Transparent"
+                                  ShowIcon="True"
+                                  ImageAlignment="Left"
+                                  ImageSize="18"
+                                  Stroke="{StaticResource Outline}"
+                                  StrokeThickness="1"
+                                  TextColor="{StaticResource Primary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium">
+                    <buttons:SfButton.ImageSource>
+                        <FontImageSource FontFamily="MaterialSymbols"
+                                         Glyph="&#xE042;"
+                                         Color="{StaticResource Primary}" />
+                    </buttons:SfButton.ImageSource>
+                </buttons:SfButton>
+
+                <buttons:SfButton Text="End session"
+                                  Background="Transparent"
+                                  TextColor="{StaticResource Primary}"
+                                  CornerRadius="8"
+                                  Stroke="{StaticResource Outline}"
+                                  StrokeThickness="1"
+                                  FontFamily="RobotoMedium"
+                                  Clicked="EndSession_Clicked"/>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>
