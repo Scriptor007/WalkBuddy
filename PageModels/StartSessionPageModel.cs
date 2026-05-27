@@ -14,6 +14,8 @@ namespace WalkBuddy.PageModels
 
         private readonly UserRepository _userRepository;
 
+        public string[] Emotions { get; } = [];
+
         private bool _isBusy;
 
         [ObservableProperty]
@@ -26,10 +28,11 @@ namespace WalkBuddy.PageModels
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
+            Emotions = Enum.GetNames(typeof(Emotion));
         }
 
         [RelayCommand]
-        private async Task InitialUserLoad()
+        private async Task InitialDataLoad()
         {
             if (_isBusy)
                 return;

@@ -5,6 +5,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="WalkBuddy.Pages.StartSessionPage"
              x:DataType="pageModels:StartSessionPageModel"
              x:Name="StartPage"
@@ -14,11 +15,12 @@
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference StartPage}}"
             EventName="Appearing"
-            Command="{Binding InitialUserLoadCommand}" />
+            Command="{Binding InitialDataLoadCommand}" />
     </ContentPage.Behaviors>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20,24,20,28" Spacing="16">
+        <VerticalStackLayout Padding="20,24,20,28" 
+                         Spacing="16">
 
             <VerticalStackLayout Spacing="2">
                 <Label Text="Good morning," FontSize="14" TextColor="#999999" />
@@ -32,29 +34,44 @@
                        FontSize="13" TextColor="#999999" />
             </VerticalStackLayout>
 
-            <chips:SfChipGroup>
-                <chips:SfChip Text="Stressed" />
-                <chips:SfChip Text="Anxious" />
-                <chips:SfChip Text="Sad" />
-                <chips:SfChip Text="Neutral" />
-                <chips:SfChip Text="Content" />
-            </chips:SfChipGroup>
+            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Emotions}"
+                                   Spacing="8"
+                                   HorizontalOptions="Center">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="sys:String">
+                        <Border Stroke="{StaticResource Outline}"
+                                StrokeShape="RoundRectangle 8"
+                                WidthRequest="64">
+                            <VerticalStackLayout Padding="8"
+                                                 Spacing="8">
+                                <Ellipse Fill="{StaticResource Outline}"
+                                         WidthRequest="40"
+                                         HeightRequest="40" />
+                                <Label Text="{Binding .}"
+                                       FontSize="10"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{StaticResource OnSurface}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
 
             <Label Text="You can change this during your walk."
                    FontSize="12" TextColor="#BBBBBB" HorizontalTextAlignment="Center" />
 
-            <Border Stroke="#EDEDED" StrokeThickness="1" Background="#F8F8F8"
+                <Border Stroke="#EDEDED" StrokeThickness="1" Background="#F8F8F8"
                     Padding="12,10" StrokeShape="RoundRectangle 12">
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="" FontSize="18" />
-                    <Label Text="3 walks completed. Last walk 2 days ago."
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="" FontSize="18" />
+                        <Label Text="3 walks completed. Last walk 2 days ago."
                            FontSize="13" TextColor="#777777" />
-                </HorizontalStackLayout>
-            </Border>
+                    </HorizontalStackLayout>
+                </Border>
 
-            <buttons:SfButton Text="Start walk" HeightRequest="56" CornerRadius="14"
+                <buttons:SfButton Text="Start walk" HeightRequest="56" CornerRadius="14"
                               Clicked="StartWalk_Clicked" />
-            <Label Text="Select an emotion above to begin"
+                <Label Text="Select an emotion above to begin"
                    FontSize="12" TextColor="#C0C0C0" HorizontalTextAlignment="Center" />
 
         </VerticalStackLayout>
