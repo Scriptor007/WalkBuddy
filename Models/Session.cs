@@ -16,7 +16,7 @@ namespace WalkBuddy.Models
 
         public Emotion StartEmotion { get; set; }
 
-        public Emotion EndEmotion { get; set; };
+        public Emotion EndEmotion { get; set; }
 
         public string Note {  get; set; } = string.Empty;
     }

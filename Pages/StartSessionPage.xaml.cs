@@ -1,10 +1,11 @@
 namespace WalkBuddy.Pages;
 
-public partial class StartSession : ContentPage
+public partial class StartSessionPage : ContentPage
 {
-	public StartSession()
+	public StartSessionPage(StartSessionPageModel model)
 	{
 		InitializeComponent();
+		BindingContext = model;
 	}
 
 	private async void StartWalk_Clicked(object sender, EventArgs e)
