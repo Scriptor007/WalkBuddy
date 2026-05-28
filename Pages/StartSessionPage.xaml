@@ -34,7 +34,7 @@
             </VerticalStackLayout>
 
             <CollectionView ItemsSource="{Binding Emotions}"
-                            SelectedItem="{Binding Session.StartEmotion}"
+                            SelectedItem="{Binding StartEmotion}"
                             SelectionMode="Single"
                             Margin="0, 20, 0, 16"
                             HorizontalOptions="Fill">
@@ -105,7 +105,8 @@
                 </Border>
 
                 <buttons:SfButton Text="Start walk"
-                                  Style="{StaticResource FilledButton}" />
+                                  Style="{StaticResource FilledButton}"
+                                  Command="{Binding CreateSessionCommand}" />
                 
                 <Label Text="Select an emotion above to begin"
                        FontSize="11" 

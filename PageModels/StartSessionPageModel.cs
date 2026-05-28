@@ -23,6 +23,10 @@ namespace WalkBuddy.PageModels
         private Session _session = new();
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CreateSessionCommand))]
+        private string _startEmotion = string.Empty;
+
+        [ObservableProperty]
         private User _user = new();
 
         public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository)
@@ -43,6 +47,7 @@ namespace WalkBuddy.PageModels
             try
             {
                 User = await _userRepository.GetUserAsync();
+                StartEmotion = string.Empty;
             }
             finally
             {
@@ -50,7 +55,7 @@ namespace WalkBuddy.PageModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanCreateSession))]
         private async Task CreateSession()
         {
             if (_isBusy)
@@ -68,5 +73,7 @@ namespace WalkBuddy.PageModels
                 _isBusy = false;
             }
         }
+
+        private bool CanCreateSession() => !string.IsNullOrWhiteSpace(StartEmotion);
     }
 }
