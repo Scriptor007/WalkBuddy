@@ -1,41 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WalkBuddy.Pages.ReflectionPage"
+             x:DataType="pageModels:ReflectionPageModel"
              Title="Reflection">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
     <ScrollView>
         <VerticalStackLayout Padding="20,28,20,28" Spacing="16">
 
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border WidthRequest="60" HeightRequest="60" Background="#F0F0F0"
+                <Border WidthRequest="60" HeightRequest="60"
+                        BackgroundColor="{StaticResource SurfaceVariant}"
+                        Stroke="{StaticResource Outline}"
                         StrokeShape="RoundRectangle 30">
-                    <Label Text="" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Text="🌿" HorizontalOptions="Center" VerticalOptions="Center" />
                 </Border>
-                <Label Text="Walk complete" FontSize="24" FontAttributes="Bold" TextColor="#1A1A1A" />
-                <Label Text="You have been walking for 24 minutes" FontSize="14" TextColor="#888888" />
-                <Border Stroke="#E4E4E4" Padding="12,6" StrokeShape="RoundRectangle 18">
-                    <Label Text="3 prompts. Started: Stressed" FontSize="12" TextColor="#666666" />
-                </Border>
+
+                <Label Text="Walk complete"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource OnSurface}" />
+
+                <Label Text="{Binding SubtitleText}"
+                       FontSize="13"
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
 
             <Label Text="How are you feeling now?"
-                   FontSize="15" FontAttributes="Bold" TextColor="#1A1A1A" />
-            <chips:SfChipGroup>
-                <chips:SfChip Text="Stressed" />
-                <chips:SfChip Text="Anxious" />
-                <chips:SfChip Text="Sad" />
-                <chips:SfChip Text="Neutral" />
-                <chips:SfChip Text="Content" />
+                   FontSize="13"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextTransform="Uppercase" />
+
+            <chips:SfChipGroup ItemsSource="{Binding Emotions}"
+                               SelectedItem="{Binding SelectedEmotion}"
+                               ChipType="Choice">
+                <chips:SfChipGroup.ChipLayout>
+                    <FlexLayout Wrap="Wrap" />
+                </chips:SfChipGroup.ChipLayout>
             </chips:SfChipGroup>
 
-            <Label Text="Anything to note?" FontSize="13" TextColor="#444444" />
-            <Editor HeightRequest="90" BackgroundColor="#FAFAFA" TextColor="#1A1A1A" />
+            <Label Text="Anything to note?"
+                   FontSize="13"
+                   TextColor="{StaticResource OnSurfaceVariant}" />
 
-            <buttons:SfButton Text="Save and finish" HeightRequest="56" CornerRadius="14" />
-            <Label Text="Skip reflection" FontSize="13" TextColor="#BBBBBB"
-                   HorizontalTextAlignment="Center" TextDecorations="Underline" />
+            <Border Stroke="{StaticResource Outline}"
+                    BackgroundColor="{StaticResource SurfaceVariant}"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="12,8">
+                <Editor Text="{Binding Note}"
+                        HeightRequest="90"
+                        TextColor="{StaticResource OnSurface}"
+                        Placeholder="A short note is enough…" />
+            </Border>
+
+            <buttons:SfButton Text="Save and finish"
+                              Command="{Binding SaveCommand}"
+                              Style="{StaticResource FilledButton}" />
+
+            <Label Text="Skip reflection"
+                   FontSize="13"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   HorizontalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SkipCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
 
         </VerticalStackLayout>
     </ScrollView>

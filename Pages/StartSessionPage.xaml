@@ -105,7 +105,8 @@
                 </Border>
 
                 <buttons:SfButton Text="Start walk"
-                                  Style="{StaticResource FilledButton}" />
+                                  Style="{StaticResource FilledButton}"
+                                  Command="{Binding CreateSessionCommand}" />
                 
                 <Label Text="Select an emotion above to begin"
                        FontSize="11" 

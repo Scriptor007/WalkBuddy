@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,6 +62,7 @@ namespace WalkBuddy.PageModels
             try
             {
                 await _sessionRepository.SaveSessionAsync(Session);
+                Preferences.Set("active_session_id", Session.ID);
                 await Shell.Current.GoToAsync(nameof(NaturePromptPage));
             }
             finally

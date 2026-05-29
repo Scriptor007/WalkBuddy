@@ -19,12 +19,14 @@ namespace WalkBuddy
             Preferences.Set("onboarding_done", false);
 #endif
             var onboardingDone = Preferences.Get(OnboardingDoneKey, false);
-            
-            Page root = onboardingDone
-                ? new AppShell()
-                : new NavigationPage(new Pages.OnboardingPage());
 
-            return new Window(root);
+            var shell = new AppShell();
+            if (!onboardingDone)
+            {
+                _ = shell.GoToAsync("//onboarding");
+            }
+
+            return new Window(shell);
         }
 
         public static void MarkOnboardingComplete()

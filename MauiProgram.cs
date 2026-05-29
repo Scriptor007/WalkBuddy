@@ -47,17 +47,19 @@ namespace WalkBuddy
             builder.Services.AddSingleton<CategoryRepository>();
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<UserRepository>();
-            builder.Services.AddSingleton<SessionRepository>();
             builder.Services.AddSingleton<StaticDataService>();
+            builder.Services.AddSingleton<SessionRepository>();
 
             builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
             builder.Services.AddTransient<EditProfilePageModel>();
             builder.Services.AddTransient<StartSessionPageModel>();
+            builder.Services.AddTransient<ReflectionPageModel>();
 
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<EditProfilePage>();
             builder.Services.AddTransient<StartSessionPage>();
+            builder.Services.AddTransient<ReflectionPage>();
 
             return builder.Build();
         }

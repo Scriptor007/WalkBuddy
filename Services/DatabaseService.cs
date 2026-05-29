@@ -1,4 +1,6 @@
 ﻿using SQLite;
+using WalkBuddy.Data;
+using WalkBuddy.Models;
 
 namespace WalkBuddy.Services
 {
@@ -12,7 +14,8 @@ namespace WalkBuddy.Services
                 return _database;
 
             _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            await _database.CreateTableAsync<Models.User>();
+            await _database.CreateTableAsync<User>();
+            await _database.CreateTableAsync<Session>();
 
             return _database;
         }

@@ -24,5 +24,21 @@ namespace WalkBuddy.Data
             else
                 return await db.InsertAsync(session);
         }
+
+        public async Task<Session?> GetSessionAsync(int id)
+        {
+            SQLiteAsyncConnection db = await _databaseService.Init();
+            return await db.Table<Session>()
+                .Where(s => s.ID == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Session?> GetLatestSessionAsync()
+        {
+            SQLiteAsyncConnection db = await _databaseService.Init();
+            return await db.Table<Session>()
+                .OrderByDescending(s => s.CreatedAt)
+                .FirstOrDefaultAsync();
+        }
     }
 }
