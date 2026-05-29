@@ -19,29 +19,55 @@
     </ContentPage.Behaviors>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20,24,20,28" 
-                         Spacing="16">
+        <VerticalStackLayout Padding="12, 0, 12, 20">
 
-            <VerticalStackLayout Spacing="2">
-                <Label Text="Good morning," FontSize="14" TextColor="#999999" />
-                <Label Text="{Binding User.Username}" FontSize="26" FontAttributes="Bold" TextColor="#1A1A1A" />
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Spacing="4">
+            <VerticalStackLayout Padding="8, 28, 8, 20">
+                <Label Text="{Binding User.Username, StringFormat='Hi, {0}'}" 
+                       FontSize="32" 
+                       TextColor="{StaticResource OnSurface}" />
                 <Label Text="How are you feeling right now?"
-                       FontSize="18" FontAttributes="Bold" TextColor="#1A1A1A" />
+                       FontSize="22" 
+                       TextColor="{StaticResource OnSurfaceVariant}" />
                 <Label Text="Choose the emotion that feels closest."
-                       FontSize="13" TextColor="#999999" />
+                       FontSize="16" 
+                       TextColor="{StaticResource OnSurfaceVariant}" />
             </VerticalStackLayout>
 
-            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Emotions}"
-                                   Spacing="8"
-                                   HorizontalOptions="Center">
-                <BindableLayout.ItemTemplate>
+            <CollectionView ItemsSource="{Binding Emotions}"
+                            SelectedItem="{Binding Session.StartEmotion}"
+                            SelectionMode="Single"
+                            Margin="0, 20, 0, 16"
+                            HorizontalOptions="Fill">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="5"
+                                     HorizontalItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="sys:String">
                         <Border Stroke="{StaticResource Outline}"
-                                StrokeShape="RoundRectangle 8"
-                                WidthRequest="64">
+                                StrokeShape="RoundRectangle 8">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Outline}" />
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryContainer}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
                             <VerticalStackLayout Padding="8"
                                                  Spacing="8">
                                 <Ellipse Fill="{StaticResource Outline}"
@@ -54,26 +80,38 @@
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </HorizontalStackLayout>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-            <Label Text="You can change this during your walk."
-                   FontSize="12" TextColor="#BBBBBB" HorizontalTextAlignment="Center" />
+            <VerticalStackLayout Padding="8, 0, 8, 0"
+                                 Spacing="16">
+                <Label Text="You can change this during your walk - no pressure to get it exactly right."
+                       FontSize="11"
+                       TextColor="{StaticResource OnSurface}"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       Margin="72, 0, 72, 0"/>
 
-                <Border Stroke="#EDEDED" StrokeThickness="1" Background="#F8F8F8"
-                    Padding="12,10" StrokeShape="RoundRectangle 12">
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="" FontSize="18" />
-                        <Label Text="3 walks completed. Last walk 2 days ago."
-                           FontSize="13" TextColor="#777777" />
-                    </HorizontalStackLayout>
+                <Border Stroke="{StaticResource OutlineVariant}" 
+                        Padding="18, 10" 
+                        StrokeShape="RoundRectangle 8">
+                    <Label Text="🌿 3 walks completed · Last walk 2 days ago."
+                           FontFamily="RobotoMedium"
+                           FontSize="14" 
+                           TextColor="{StaticResource OnSurface}"
+                           Opacity="0.6"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
                 </Border>
 
-                <buttons:SfButton Text="Start walk" HeightRequest="56" CornerRadius="14"
-                              Clicked="StartWalk_Clicked" />
+                <buttons:SfButton Text="Start walk"
+                                  Style="{StaticResource FilledButton}" />
+                
                 <Label Text="Select an emotion above to begin"
-                   FontSize="12" TextColor="#C0C0C0" HorizontalTextAlignment="Center" />
-
+                       FontSize="11" 
+                       TextColor="{StaticResource OnSurface}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
