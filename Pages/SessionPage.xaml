@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="WalkBuddy.Pages.SessionPage"
+             x:DataType="pageModels:SessionPageModel"
+             x:Name="OverviewPage"
+             Title="Sessions">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+                BindingContext="{Binding Path=BindingContext, Source={x:Reference OverviewPage}, x:DataType=ContentPage}"
+                EventName="NavigatedTo"
+                Command="{Binding NavigatedToCommand}" />
+        <toolkit:EventToCommandBehavior
+                BindingContext="{Binding Path=BindingContext, Source={x:Reference OverviewPage}, x:DataType=ContentPage}"
+                EventName="NavigatedFrom"
+                Command="{Binding NavigatedFromCommand}" />
+        <toolkit:EventToCommandBehavior
+                BindingContext="{Binding Path=BindingContext, Source={x:Reference OverviewPage}, x:DataType=ContentPage}"
+                EventName="Appearing"
+                Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout>
+        <HorizontalStackLayout Padding="20,28,20,8">
+            <Label Text="Your sessions"
+                   FontSize="32"
+                   TextColor="{StaticResource OnSurface}" />
+        </HorizontalStackLayout>
+        <Label Text="{Binding HeaderText}"
+               FontSize="13"
+               TextColor="{StaticResource OnSurfaceVariant}"
+               Margin="20,0,20,12" />
+        <CollectionView ItemsSource="{Binding Sessions}"
+                        Margin="20,0,20,24">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="0,40" HorizontalOptions="Center">
+                    <Label Text="There are no sessions yet."
+                           FontSize="14"
+                           TextColor="{StaticResource OnSurfaceVariant}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="pageModels:SessionCardModel">
+                    <Border Stroke="{StaticResource Outline}"
+                            BackgroundColor="{StaticResource Surface}"
+                            StrokeShape="RoundRectangle 14"
+                            Padding="14,12">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding DateText}"
+                                       FontSize="14"
+                                       FontFamily="RobotoMedium"
+                                       TextColor="{StaticResource OnSurface}" />
+                            </Grid>
+                            <HorizontalStackLayout Spacing="6">
+                                <Border BackgroundColor="{StaticResource SurfaceVariant}"
+                                        Stroke="{StaticResource Outline}"
+                                        StrokeShape="RoundRectangle 12"
+                                        Padding="8,2">
+                                    <Label Text="{Binding StartEmotionText}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                </Border>
+                                <Label Text="→"
+                                       FontSize="12"
+                                       TextColor="{StaticResource OnSurfaceVariant}"
+                                       VerticalTextAlignment="Center" />
+                                <Border BackgroundColor="{StaticResource SurfaceVariant}"
+                                        Stroke="{StaticResource Outline}"
+                                        StrokeShape="RoundRectangle 12"
+                                        Padding="8,2">
+                                    <Label Text="{Binding EndEmotionText}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding PromptPreview}"
+                                   FontSize="13"
+                                   TextColor="{StaticResource OnSurfaceVariant}"
+                                   MaxLines="2"
+                                   LineBreakMode="TailTruncation" />
+                            <Label Text="{Binding FooterText}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource OnSurfaceVariant}"
+                                   MaxLines="1"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

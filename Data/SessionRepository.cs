@@ -40,5 +40,13 @@ namespace WalkBuddy.Data
                 .OrderByDescending(s => s.CreatedAt)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Session>> ListSessionsAsync()
+        {
+            SQLiteAsyncConnection db = await _databaseService.Init();
+            return await db.Table<Session>()
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+        }
     }
 }
