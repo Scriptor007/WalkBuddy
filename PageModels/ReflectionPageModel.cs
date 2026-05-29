@@ -11,13 +11,13 @@ namespace WalkBuddy.PageModels
         private readonly SessionRepository _sessionRepository;
         private bool _isBusy;
 
-        public string[] Emotions { get; } = Enum.GetNames(typeof(Emotion));
+        public IReadOnlyList<string> Emotions { get; } = Enum.GetNames(typeof(Emotion));
 
         [ObservableProperty]
         private Session? _session;
 
         [ObservableProperty]
-        private Emotion _selectedEmotion;
+        private string _selectedEmotionName = string.Empty;
 
         [ObservableProperty]
         private string _note = string.Empty;
@@ -52,7 +52,7 @@ namespace WalkBuddy.PageModels
 
                 if (Session != null)
                 {
-                    SelectedEmotion = Session.EndEmotion;
+                    SelectedEmotionName = Session.EndEmotion.ToString();
                     Note = Session.Note;
                 }
             }
@@ -65,14 +65,23 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task Save()
         {
-            if (_isBusy || Session == null)
+            if (_isBusy)
                 return;
 
             _isBusy = true;
 
             try
             {
-                Session.EndEmotion = SelectedEmotion;
+                if (Session == null)
+                {
+                    Session = await _sessionRepository.GetLatestSessionAsync()
+                        ?? new Session { CreatedAt = DateTime.Now };
+                }
+
+                if (Enum.TryParse<Emotion>(SelectedEmotionName, out var parsedEmotion))
+                {
+                    Session.EndEmotion = parsedEmotion;
+                }
                 Session.Note = Note ?? string.Empty;
                 await _sessionRepository.SaveSessionAsync(Session);
                 Preferences.Set("active_session_id", 0);

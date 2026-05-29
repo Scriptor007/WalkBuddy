@@ -37,7 +37,7 @@ namespace WalkBuddy.Data
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
 
-            User user = await db.Table<User>().FirstOrDefaultAsync();
+            User user = await db.Table<User>().FirstOrDefaultAsync() ?? new User();
             MapToObservableCollections(user);
 
             return user;
@@ -45,6 +45,9 @@ namespace WalkBuddy.Data
 
         private void MapToObservableCollections(User user)
         {
+            if (user == null)
+                return;
+
             user.Interests.Clear();
 
             if (!string.IsNullOrWhiteSpace(user.InterestsString))

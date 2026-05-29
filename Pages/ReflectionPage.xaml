@@ -44,7 +44,7 @@
                    TextTransform="Uppercase" />
 
             <chips:SfChipGroup ItemsSource="{Binding Emotions}"
-                               SelectedItem="{Binding SelectedEmotion}"
+                               SelectedItem="{Binding SelectedEmotionName}"
                                ChipType="Choice">
                 <chips:SfChipGroup.ChipLayout>
                     <FlexLayout Wrap="Wrap" />

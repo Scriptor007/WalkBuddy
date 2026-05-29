@@ -7,5 +7,15 @@
             InitializeComponent();
             BindingContext = model;
         }
+
+        public SessionPage()
+        {
+            InitializeComponent();
+            var services = Application.Current?.Handler?.MauiContext?.Services;
+            if (services != null)
+            {
+                BindingContext = services.GetRequiredService<SessionPageModel>();
+            }
+        }
     }
 }

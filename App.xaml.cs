@@ -16,7 +16,7 @@ namespace WalkBuddy
         protected override Window CreateWindow(IActivationState? activationState)
         {
 #if DEBUG
-            Preferences.Set("onboarding_done", false);
+            Preferences.Set("onboarding_done", true);
 #endif
             var onboardingDone = Preferences.Get(OnboardingDoneKey, false);
 
