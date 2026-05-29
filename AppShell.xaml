@@ -34,7 +34,7 @@
             </Tab.Icon>
             <ShellContent
                 Title="Sessions"
-                ContentTemplate="{DataTemplate pages:MainPage}"
+                ContentTemplate="{DataTemplate pages:SessionPage}"
                 Route="sessions" />
         </Tab>
         <Tab Title="Settings">

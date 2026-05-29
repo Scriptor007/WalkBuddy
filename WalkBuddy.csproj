@@ -92,6 +92,9 @@
 	  <Compile Update="Pages\EditProfilePage.xaml.cs">
 	    <DependentUpon>EditProfilePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\SessionPage.xaml.cs">
+	    <DependentUpon>SessionPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\StartSessionPage.xaml.cs">
 	    <DependentUpon>StartSessionPage.xaml</DependentUpon>
 	  </Compile>
