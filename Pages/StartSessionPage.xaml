@@ -95,7 +95,7 @@
                 <Border Stroke="{StaticResource OutlineVariant}" 
                         Padding="18, 10" 
                         StrokeShape="RoundRectangle 8">
-                    <Label Text="🌿 3 walks completed · Last walk 2 days ago."
+                    <Label Text="{Binding WalkStats}"
                            FontFamily="RobotoMedium"
                            FontSize="14" 
                            TextColor="{StaticResource OnSurface}"

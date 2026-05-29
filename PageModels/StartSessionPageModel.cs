@@ -30,6 +30,9 @@ namespace WalkBuddy.PageModels
         private string _startEmotion = string.Empty;
 
         [ObservableProperty]
+        private string _walkStats = "🌿 No walk completed yet";
+
+        [ObservableProperty]
         private User _user = new();
 
         public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository, MistralService mistralService)
@@ -53,6 +56,19 @@ namespace WalkBuddy.PageModels
                 User = await _userRepository.GetUserAsync();
                 Session = new();
                 StartEmotion = string.Empty;
+                int totalWalks = await _sessionRepository.GetTotalSessions();
+
+                if (totalWalks > 0)
+                {
+                    Session latestSession = await _sessionRepository.GetLatestSessionAsync();
+
+                    if (latestSession != null)
+                    {
+                        string relativeTime = GetRelativeWalkDate(latestSession.CreatedAt);
+
+                        WalkStats = $"🌿 {totalWalks} walks completed  •  Last walk {relativeTime}";
+                    }
+                }
             }
             finally
             {
@@ -83,6 +99,18 @@ namespace WalkBuddy.PageModels
             {
                 IsBusy = false;
             }
+        }
+
+        private string GetRelativeWalkDate(DateTime dateTime)
+        {
+            var difference = DateTime.Now - dateTime;
+            if (difference.TotalDays >= 2)
+                return $"{Math.Floor(difference.TotalDays)} days ago";
+
+            if (difference.TotalDays >= 1)
+                return "Yesterday";
+
+            return "Today";
         }
 
         private bool CanCreateSession() => !string.IsNullOrWhiteSpace(StartEmotion);
