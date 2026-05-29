@@ -2,6 +2,7 @@
 using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
+using System.Net.Http.Headers;
 using WalkBuddy.Pages;
 
 namespace WalkBuddy
@@ -49,15 +50,23 @@ namespace WalkBuddy
             builder.Services.AddSingleton<UserRepository>();
             builder.Services.AddSingleton<SessionRepository>();
             builder.Services.AddSingleton<StaticDataService>();
+            builder.Services.AddSingleton<MistralService>();
 
             builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
             builder.Services.AddTransient<EditProfilePageModel>();
             builder.Services.AddTransient<StartSessionPageModel>();
+            builder.Services.AddTransient<NaturePromptPageModel>();
 
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<EditProfilePage>();
             builder.Services.AddTransient<StartSessionPage>();
+
+            builder.Services.AddHttpClient<MistralService>((serviceProvider, httpClient) =>
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "3sWny4kVbnK4plO6fewjlVgH5XWBbFNp");
+                httpClient.BaseAddress = new Uri("https://api.mistral.ai");
+            });
 
             return builder.Build();
         }

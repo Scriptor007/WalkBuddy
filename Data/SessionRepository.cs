@@ -15,14 +15,16 @@ namespace WalkBuddy.Data
             _databaseService = databaseService;
         }
 
-        public async Task<int> SaveSessionAsync(Session session)
+        public async Task<Session> SaveSessionAsync(Session session)
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
 
             if (session.ID != 0)
-                return await db.UpdateAsync(session);
+                await db.UpdateAsync(session);
             else
-                return await db.InsertAsync(session);
+                await db.InsertAsync(session);
+
+            return session;
         }
     }
 }

@@ -112,6 +112,8 @@
                        FontSize="11" 
                        TextColor="{StaticResource OnSurface}"
                        HorizontalOptions="Center"/>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
