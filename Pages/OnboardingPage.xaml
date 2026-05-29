@@ -11,11 +11,8 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              Title="OnboardingPage"
              Shell.TabBarIsVisible="False"
-             HideSoftInputOnTapped="True">
-
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
-    </Shell.BackButtonBehavior>
+             HideSoftInputOnTapped="True"
+             Shell.BackButtonBehavior="{BackButtonBehavior IsVisible=False, IsEnabled=False}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -56,35 +53,9 @@
                                  Spacing="32">
                 <!-- username input -->
                 <inputLayout:SfTextInputLayout Hint="Your name"
-                                               Margin="0, 0, 0, -20"
-                                               IsHintAlwaysFloated="True"
-                                               OutlineCornerRadius="8"
-                                               InputViewPadding="16, 3, 16, 0"
-                                               ContainerBackground="{StaticResource SurfaceVariant}"
-                                               ContainerType="Outlined"
+                                               Style="{StaticResource UsernameInput}"
                                                ErrorText="Username is required"
                                                HasError="{Binding Source={x:Reference NameValidator}, Path=IsValid, Converter={StaticResource InvertedBoolConverter}}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="{StaticResource Outline}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState Name="Focused">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="{StaticResource Primary}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState Name="Error">
-                                    <VisualState.Setters>
-                                        <Setter Property="Stroke" Value="Red"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </VisualStateManager.VisualStateGroups>
                     <Entry Text="{Binding Username}"
                            TextColor="{StaticResource OnSurface}"
                            FontSize="14"
@@ -92,7 +63,7 @@
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior
                             x:Name="NameValidator"
-                            Flags="ValidateOnUnfocused"
+                            Flags="ValidateOnValueChanged"
                             MinimumLength="1" />
                         </Entry.Behaviors>
                     </Entry>
@@ -103,33 +74,10 @@
                     <controls:DividerWithLabel LabelText="ABOUT YOU" />
 
                     <inputLayout:SfTextInputLayout Hint="Tell us more"
-                                                   IsHintAlwaysFloated="true"
-                                                   ContainerType="Outlined"
-                                                   OutlineCornerRadius="8"
-                                                   InputViewPadding="16"
-                                                   MinimumHeightRequest="150"
-                                                   ReserveSpaceForAssistiveLabels="False">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="Stroke" Value="{StaticResource Outline}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState Name="Focused">
-                                        <VisualState.Setters>
-                                            <Setter Property="Stroke" Value="{StaticResource Primary}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                        <Editor AutoSize="TextChanges"
+                                                   Style="{StaticResource AboutYouInput}">
+                        <Editor Style="{StaticResource AboutYouEditor}"
                                 Text="{Binding User.AdditionalInfo}"
                                 Placeholder="e.g. I love hearing birds, prefer quiter paths, find water calming..."
-                                PlaceholderColor="{StaticResource OnSurfaceVariant}"
-                                TextColor="{StaticResource OnSurface}"
                                 x:Name="InfoInput" />
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
@@ -157,6 +105,7 @@
                                FontSize="12"
                                TextColor="{StaticResource OnSurface}" />
 
+                        <!-- Challenging States -->
                         <ChipControl:SfChipGroup
                                 ItemsSource="{Binding ChallengingStates}"
                                 SelectedItem="{Binding User.ChallengingStates}"
@@ -167,6 +116,7 @@
                         </ChipControl:SfChipGroup>
                     </VerticalStackLayout>
 
+                    <!-- Positive States -->
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Positive states"
                                FontSize="12"
@@ -202,13 +152,13 @@
                 <VerticalStackLayout Spacing="16">
                     <controls:DividerWithLabel LabelText="LOCATION" />
                     
-                    <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}" />
+                    <controls:GpsAccessCard AccessCommand="{Binding EnableGPSCommand}"
+                                            ButtonText="Allow location access" />
                 </VerticalStackLayout>
 
                 <!-- Save Button -->
                 <buttons:SfButton Text="Save &amp; get started"
                                   Command="{Binding CreateUserCommand}"
-                                  Clicked="FinishOnboarding_Clicked"
                                   Background="{StaticResource Primary}"
                                   TextColor="{StaticResource OnPrimary}"
                                   CornerRadius="8"

@@ -13,8 +13,8 @@ public partial class OnboardingPage : ContentPage
 		InitializeComponent();
 	}
 
-	private void FinishOnboarding_Clicked(object sender, EventArgs e)
-	{
-		App.MarkOnboardingComplete();
-	}
+    protected override bool OnBackButtonPressed()
+    {
+		return true;
+    }
 }

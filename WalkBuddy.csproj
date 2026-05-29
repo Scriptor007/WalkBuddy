@@ -92,6 +92,9 @@
 	  <Compile Update="Pages\EditProfilePage.xaml.cs">
 	    <DependentUpon>EditProfilePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\StartSessionPage.xaml.cs">
+	    <DependentUpon>StartSessionPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -107,7 +110,7 @@
 	  <MauiXaml Update="Pages\OnboardingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\StartSession.xaml">
+	  <MauiXaml Update="Pages\StartSessionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -7,24 +7,23 @@ namespace WalkBuddy
 {
     public partial class AppShell : Shell
     {
+
         public AppShell()
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
             //Preferences.Clear();
-            Routing.RegisterRoute("onboarding", typeof(OnboardingPage));
-            this.Loaded += AppShell_Loaded;
-        }
-
-        private async void AppShell_Loaded(object? sender, EventArgs e)
-        {
-            if (!Preferences.Default.Get("isRegistered", false))
-            {
-                await Shell.Current.GoToAsync("onboarding");
-            }
-
             Routing.RegisterRoute(nameof(Pages.NaturePromptPage), typeof(Pages.NaturePromptPage));
             Routing.RegisterRoute(nameof(Pages.ReflectionPage), typeof(Pages.ReflectionPage));
+
+            if (!Preferences.Default.Get("isRegistered", false))
+            {
+                CurrentItem = this.Items[0];
+            }
+            else
+            {
+                CurrentItem = this.Items[1];
+            }
         }
 
         public static async Task DisplaySnackbarAsync(string message)

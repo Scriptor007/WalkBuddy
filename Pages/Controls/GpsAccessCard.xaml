@@ -23,8 +23,9 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Padding="16">
-                    <buttons:SfButton Text="Allow location access"
+                    <buttons:SfButton Text="{Binding ButtonText, Source={x:Reference GPS}}"
                                       x:Name="SfButton"
+                                      Command="{Binding AccessCommand, Source={x:Reference GPS}}"
                                       Background="{StaticResource Primary}"
                                       TextColor="{StaticResource OnPrimary}"
                                       CornerRadius="8"

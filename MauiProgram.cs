@@ -34,7 +34,7 @@ namespace WalkBuddy
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("SegoeUI-Semibold.ttf", "SegoeSemibold");
+                    fonts.AddFont("MaterialSymbols.ttf", "MaterialSymbols");
                     fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
                     fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
                 });
@@ -47,13 +47,17 @@ namespace WalkBuddy
             builder.Services.AddSingleton<CategoryRepository>();
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<UserRepository>();
+            builder.Services.AddSingleton<SessionRepository>();
             builder.Services.AddSingleton<StaticDataService>();
 
             builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
             builder.Services.AddTransient<EditProfilePageModel>();
+            builder.Services.AddTransient<StartSessionPageModel>();
 
             builder.Services.AddTransient<OnboardingPage>();
+            builder.Services.AddTransient<EditProfilePage>();
+            builder.Services.AddTransient<StartSessionPage>();
 
             return builder.Build();
         }
