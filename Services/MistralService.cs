@@ -34,7 +34,7 @@ namespace WalkBuddy.Services
             var request = new
             {
                 agent_id = "ag_019e10fe28457606995cc3c396988026",
-                agent_version = 13,
+                agent_version = 15,
                 inputs = new[] { new { role = "user", content = payload } }
             };
 

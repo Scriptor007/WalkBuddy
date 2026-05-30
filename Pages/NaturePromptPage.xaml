@@ -10,30 +10,36 @@
              x:Name="NaturePage"
              Title="Your walk">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
+            EventName="Appearing"
+            Command="{Binding InitialSessionLoadCommand}" />
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
+            EventName="Disappearing"
+            Command="{Binding StopTimerCommand}" />
+    </ContentPage.Behaviors>
+
     <ScrollView>
         <VerticalStackLayout>
-
             <Grid ColumnDefinitions="*,Auto"
                   Padding="20, 16, 20, 8">
                 <Label Text="Your walk"
                        TextColor="{StaticResource OnSurface}"
                        FontSize="16" />
                 <Label Grid.Column="1" 
-                       Text="22 min" 
+                       Text="{Binding MinPassed, StringFormat='{0} min'}" 
                        TextColor="{StaticResource OnSurfaceVariant}"
                        FontSize="16" />
             </Grid>
 
-            <!--<Border Stroke="#E4E4E4" Background="#FFFFFF" Padding="12,6"
-                    StrokeShape="RoundRectangle 18" HorizontalOptions="Start">
-                <Label Text="Feeling: Stressed" FontSize="12" TextColor="#666666" />
-            </Border>-->
             <VerticalStackLayout Spacing="16"
                                  Padding="20">
                 
                 <Grid ColumnDefinitions="Auto, *">
                     <chips:SfChip Grid.Column="0"
-                                  Text="Feeling: Stressed"
+                                  Text="{Binding Session.StartEmotion}"
                                   Stroke="{StaticResource Outline}"
                                   CornerRadius="48"
                                   FontFamily="RobotoMedium"
@@ -45,25 +51,31 @@
                 <Border Stroke="{StaticResource Outline}" 
                         Padding="16"
                         StrokeShape="RoundRectangle 8">
-                    <Grid>
-                        <Label Text="Notice the colours around you. Find one that stands out - it could be anything. Follow it with your eys until it leads somewhere unexpected."
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0"
+                               Text="{Binding MistralAnswer}"
                                FontSize="22" 
                                TextColor="{StaticResource OnSurfaceVariant}"
-                               VerticalTextAlignment="Center" />
-                        <Border 
-                                Stroke="{StaticResource Outline}" 
-                                WidthRequest="40" 
-                                HeightRequest="40"
-                                StrokeShape="Ellipse"
-                                HorizontalOptions="End"
-                                VerticalOptions="Start">
-                            <Label Text="&#xE050;"
-                                   FontFamily="MaterialSymbols"
-                                   HorizontalOptions="Center" 
-                                   VerticalOptions="Center"
-                                   TextColor="{StaticResource OnSurfaceVariant}"
-                                   FontSize="24" />
-                        </Border>
+                               VerticalOptions="Start" />
+                        <ContentView Grid.Column="1"
+                                     Margin="8, 0, 0, 0"
+                                     VerticalOptions="Start">
+                            <buttons:SfButton CornerRadius="20"
+                                              WidthRequest="40"
+                                              HeightRequest="40"
+                                              Background="Transparent"
+                                              Stroke="{StaticResource Outline}"
+                                              StrokeThickness="1"
+                                              ImageSize="24"
+                                              ShowIcon="True"
+                                              ImageAlignment="Default">
+                                <buttons:SfButton.ImageSource>
+                                    <FontImageSource FontFamily="MaterialSymbols"
+                                                 Glyph="&#xE050;"
+                                                 Color="{StaticResource Primary}" />
+                                </buttons:SfButton.ImageSource>
+                            </buttons:SfButton>
+                        </ContentView>
                     </Grid>
                 </Border>
 
@@ -81,19 +93,11 @@
 
                 <buttons:SfButton Text="New prompt"
                                   Background="Transparent"
-                                  ShowIcon="True"
-                                  ImageAlignment="Left"
-                                  ImageSize="18"
                                   Stroke="{StaticResource Outline}"
                                   StrokeThickness="1"
                                   TextColor="{StaticResource Primary}"
                                   CornerRadius="8"
                                   FontFamily="RobotoMedium">
-                    <buttons:SfButton.ImageSource>
-                        <FontImageSource FontFamily="MaterialSymbols"
-                                         Glyph="&#xE042;"
-                                         Color="{StaticResource Primary}" />
-                    </buttons:SfButton.ImageSource>
                 </buttons:SfButton>
 
                 <buttons:SfButton Text="End session"
@@ -102,8 +106,7 @@
                                   CornerRadius="8"
                                   Stroke="{StaticResource Outline}"
                                   StrokeThickness="1"
-                                  FontFamily="RobotoMedium"
-                                  Clicked="EndSession_Clicked"/>
+                                  FontFamily="RobotoMedium" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>

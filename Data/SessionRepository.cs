@@ -27,6 +27,14 @@ namespace WalkBuddy.Data
             return session;
         }
 
+        public async Task<Session?> GetSessionAsync(int id)
+        {
+            SQLiteAsyncConnection db = await _databaseService.Init();
+            return await db.Table<Session>()
+                .Where(s => s.ID == id)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<int> GetTotalSessions()
         {
             SQLiteAsyncConnection db = await _databaseService.Init();
