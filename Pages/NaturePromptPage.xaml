@@ -29,7 +29,7 @@
                        TextColor="{StaticResource OnSurface}"
                        FontSize="16" />
                 <Label Grid.Column="1" 
-                       Text="{Binding MinPassed, StringFormat='{0} min'}" 
+                       Text="{Binding TimerService.MinPassed, StringFormat='{0} min'}" 
                        TextColor="{StaticResource OnSurfaceVariant}"
                        FontSize="16" />
             </Grid>

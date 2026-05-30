@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using WalkBuddy.Models;
+using WalkBuddy.Pages;
 
 namespace WalkBuddy.PageModels
 {
@@ -15,9 +16,7 @@ namespace WalkBuddy.PageModels
 
         private readonly SessionRepository _sessionRepository;
 
-        private IDispatcherTimer? _timer;
-
-        private DateTime _startTime = DateTime.Now; 
+        public TimerService TimerService { get; }
 
         private bool _isBusy;
 
@@ -26,14 +25,12 @@ namespace WalkBuddy.PageModels
 
         [ObservableProperty]
         private Session? _session = new();
-        [ObservableProperty]        
-        private int _minPassed; 
 
-        public NaturePromptPageModel(MistralService mistralService, SessionRepository sessionRepository)
+        public NaturePromptPageModel(MistralService mistralService, SessionRepository sessionRepository, TimerService timerService)
         {
             _mistralService = mistralService;
             _sessionRepository = sessionRepository;
-            InitTimer();
+            TimerService = timerService;
         }
 
         [RelayCommand]
@@ -48,8 +45,10 @@ namespace WalkBuddy.PageModels
             {
                 int id = Preferences.Get("active_session_id", 0);
                 Session = await _sessionRepository.GetSessionAsync(id);
-                _timer?.Start();
-                UpdateMinutes();
+                if (TimerService.MinPassed == -1)
+                {
+                    TimerService.InitTimer();
+                }
             }
             finally
             {
@@ -60,8 +59,14 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task StopTimer()
         {
-            _timer?.Stop();
+            TimerService.Stop();
         }
+
+        /*[RelayCommand]
+        private async Task FinishCurrentActivity()
+        {
+
+        }*/
 
         [RelayCommand]
         private async Task<int> Another()
@@ -70,27 +75,11 @@ namespace WalkBuddy.PageModels
             return 1;
         }
 
-        private void InitTimer()
+        [RelayCommand]
+        private async Task EndSession()
         {
-            IDispatcher? dispatcher = Dispatcher.GetForCurrentThread();
-
-            if (dispatcher != null)
-            {
-                _timer = dispatcher.CreateTimer();
-                _timer.Interval = TimeSpan.FromMinutes(1);
-                _timer.Tick += TimerTick;
-            }
-        }
-
-        private void TimerTick(object? sender, EventArgs e)
-        {
-            UpdateMinutes();
-        }
-
-        private void UpdateMinutes()
-        {
-            TimeSpan minPassed = DateTime.Now - _startTime;
-            MinPassed = (int)minPassed.TotalMinutes;
+            Preferences.Remove("active_session_id");
+            await Shell.Current.GoToAsync("//start");
         }
     }
 }

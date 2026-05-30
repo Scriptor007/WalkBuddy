@@ -51,6 +51,7 @@ namespace WalkBuddy
             builder.Services.AddSingleton<SessionRepository>();
             builder.Services.AddSingleton<StaticDataService>();
             builder.Services.AddSingleton<MistralService>();
+            builder.Services.AddSingleton<TimerService>();
 
             builder.Services.AddTransient<MainPageModel>();
             builder.Services.AddTransient<OnboardingPageModel>();
