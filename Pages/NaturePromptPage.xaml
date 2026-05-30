@@ -89,7 +89,8 @@
                                   Background="{StaticResource Primary}"
                                   TextColor="{StaticResource OnPrimary}"
                                   CornerRadius="8"
-                                  FontFamily="RobotoMedium" />
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding FinishCurrentActivityCommand}" />
 
                 <buttons:SfButton Text="New prompt"
                                   Background="Transparent"
@@ -106,7 +107,8 @@
                                   CornerRadius="8"
                                   Stroke="{StaticResource Outline}"
                                   StrokeThickness="1"
-                                  FontFamily="RobotoMedium" />
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding EndSessionCommand}" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>

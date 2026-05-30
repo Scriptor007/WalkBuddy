@@ -62,11 +62,11 @@ namespace WalkBuddy.PageModels
             TimerService.Stop();
         }
 
-        /*[RelayCommand]
+        [RelayCommand]
         private async Task FinishCurrentActivity()
         {
-
-        }*/
+            await Shell.Current.GoToAsync(nameof(CheckInPage));
+        }
 
         [RelayCommand]
         private async Task<int> Another()
@@ -79,7 +79,7 @@ namespace WalkBuddy.PageModels
         private async Task EndSession()
         {
             Preferences.Remove("active_session_id");
-            await Shell.Current.GoToAsync("//start");
+            await Shell.Current.GoToAsync(nameof(ReflectionPage));
         }
     }
 }

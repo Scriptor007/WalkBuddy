@@ -14,6 +14,7 @@ namespace WalkBuddy
             var currentTheme = Application.Current!.RequestedTheme;
             //Preferences.Clear();
             Routing.RegisterRoute(nameof(Pages.NaturePromptPage), typeof(Pages.NaturePromptPage));
+            Routing.RegisterRoute(nameof(Pages.CheckInPage), typeof(Pages.CheckInPage));
             Routing.RegisterRoute(nameof(Pages.ReflectionPage), typeof(Pages.ReflectionPage));
 
             if (!Preferences.Default.Get("isRegistered", false))

@@ -58,10 +58,13 @@ namespace WalkBuddy
             builder.Services.AddTransient<EditProfilePageModel>();
             builder.Services.AddTransient<StartSessionPageModel>();
             builder.Services.AddTransient<NaturePromptPageModel>();
+            builder.Services.AddTransient<CheckInPageModel>();
 
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<EditProfilePage>();
             builder.Services.AddTransient<StartSessionPage>();
+            builder.Services.AddTransient<NaturePromptPage>();
+            builder.Services.AddTransient<CheckInPage>();
 
             builder.Services.AddHttpClient<MistralService>((serviceProvider, httpClient) =>
             {
