@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -60,11 +61,11 @@ namespace WalkBuddy.PageModels
 
                 if (totalWalks > 0)
                 {
-                    Session latestSession = await _sessionRepository.GetLatestSessionAsync();
+                    Session? latestSession = await _sessionRepository.GetLatestSessionAsync();
 
                     if (latestSession != null)
                     {
-                        string relativeTime = GetRelativeWalkDate(latestSession.CreatedAt);
+                        string relativeTime = GetLatestWalkDay(latestSession.CreatedAt);
 
                         WalkStats = $"🌿 {totalWalks} walks completed  •  Last walk {relativeTime}";
                     }
@@ -87,13 +88,18 @@ namespace WalkBuddy.PageModels
             try
             {
                 Session.StartEmotion = Enum.Parse<Emotion>(StartEmotion);
-                Session currSession = await _sessionRepository.SaveSessionAsync(Session);
+                await _sessionRepository.SaveSessionAsync(Session);
                 string answer = await _mistralService.SendRequest(User, Session);
                 var param = new Dictionary<string, object>
                 {
                     { "answer", answer }
                 };
+                Preferences.Set("active_session_id", Session.ID);
                 await Shell.Current.GoToAsync(nameof(NaturePromptPage), param);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             }
             finally
             {
@@ -101,9 +107,9 @@ namespace WalkBuddy.PageModels
             }
         }
 
-        private string GetRelativeWalkDate(DateTime dateTime)
+        private string GetLatestWalkDay(DateTime dateTime)
         {
-            var difference = DateTime.Now - dateTime;
+            TimeSpan difference = DateTime.Now - dateTime;
             if (difference.TotalDays >= 2)
                 return $"{Math.Floor(difference.TotalDays)} days ago";
 

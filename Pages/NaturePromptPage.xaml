@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
              x:Class="WalkBuddy.Pages.NaturePromptPage"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             x:DataType="pageModels:NaturePromptPageModel"
+             x:Name="NaturePage"
              Title="Your walk">
+
     <ScrollView>
         <VerticalStackLayout Padding="20,14,20,28" Spacing="16">
 
@@ -21,7 +26,7 @@
             <Border Stroke="#E8E8E8" Background="#F8F8F8" Padding="20"
                     StrokeShape="RoundRectangle 18">
                 <Grid>
-                    <Label Text="Notice the colours around you. Find one that stands out and follow it with your eyes."
+                    <Label Text="{Binding MistralAnswer}"
                            FontSize="18" TextColor="#1A1A1A" LineHeight="1.6" />
                     <Border Background="#FFFFFF" Stroke="#E0E0E0" WidthRequest="44" HeightRequest="44"
                             StrokeShape="RoundRectangle 22" HorizontalOptions="End" VerticalOptions="Start">
@@ -42,7 +47,8 @@
                 <chips:SfChip Text="Content" />
             </chips:SfChipGroup>
 
-            <buttons:SfButton Text="New prompt" HeightRequest="52" CornerRadius="14" />
+            <buttons:SfButton Text="New prompt" HeightRequest="52" CornerRadius="14"
+                              Command="{Binding AnotherCommand}"/>
             <buttons:SfButton Text="End session" HeightRequest="48" CornerRadius="14"
                               Clicked="EndSession_Clicked" />
 

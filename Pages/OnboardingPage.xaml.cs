@@ -8,11 +8,6 @@ public partial class OnboardingPage : ContentPage
 		BindingContext = model;
 	}
 
-	public OnboardingPage()
-	{
-		InitializeComponent();
-	}
-
     protected override bool OnBackButtonPressed()
     {
 		return true;
