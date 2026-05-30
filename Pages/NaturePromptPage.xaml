@@ -98,7 +98,8 @@
                                   StrokeThickness="1"
                                   TextColor="{StaticResource Primary}"
                                   CornerRadius="8"
-                                  FontFamily="RobotoMedium">
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding GetNewPromptCommand}">
                 </buttons:SfButton>
 
                 <buttons:SfButton Text="End session"

@@ -69,10 +69,9 @@ namespace WalkBuddy.PageModels
         }
 
         [RelayCommand]
-        private async Task<int> Another()
+        private async Task GetNewPrompt()
         {
-            //await _mistralService.AnotherRequest();
-            return 1;
+            MistralAnswer = await _mistralService.GetNewPrompt();
         }
 
         [RelayCommand]

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace WalkBuddy.PageModels
 {
-    public class CheckInPageModel
+    public partial class CheckInPageModel : ObservableObject
     {
         public TimerService TimerService { get; }
 

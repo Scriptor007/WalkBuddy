@@ -34,7 +34,7 @@ namespace WalkBuddy.Services
             var request = new
             {
                 agent_id = "ag_019e10fe28457606995cc3c396988026",
-                agent_version = 15,
+                agent_version = 16,
                 inputs = new[] { new { role = "user", content = payload } }
             };
 
@@ -62,6 +62,41 @@ namespace WalkBuddy.Services
 
             MistralAnswer = botAnswer ?? "Server is currently not available";
             CurrentSession = session;
+            return MistralAnswer;
+        }
+
+        public async Task<string> GetNewPrompt()
+        {
+            string conversationId = Preferences.Get("conversation_id", "");
+
+            var request = new
+            {
+                inputs = new[] { new { role = "user", content = "(New Prompt) Give me another prompt" } }
+            };
+
+            string requestPayload = JsonSerializer.Serialize(request);
+
+            var response = await _client.PostAsync(_client.BaseAddress + "v1/conversations/" + conversationId, new StringContent(requestPayload, Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            JsonNode? root = JsonNode.Parse(responseString);
+
+            string? conversation_id = root?["conversation_id"]?.ToString();
+            JsonArray? output = root?["outputs"]?.AsArray();
+            string? botAnswer = output?[0]?["content"]?.ToString();
+
+            if (string.IsNullOrEmpty(botAnswer))
+            {
+                throw new Exception("Server reponse is empty");
+            }
+
+            Preferences.Set("conversation_id", conversation_id);
+
+            CurrentSession.PromptCount += 1;
+            await _sessionRepository.SaveSessionAsync(CurrentSession);
+
+            MistralAnswer = botAnswer ?? "Server is currently not available";
             return MistralAnswer;
         }
 
