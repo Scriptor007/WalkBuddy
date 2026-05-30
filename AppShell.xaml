@@ -23,7 +23,7 @@
             </Tab.Icon>
             <ShellContent
                 Title="Start"
-                ContentTemplate="{DataTemplate pages:StartSession}"
+                ContentTemplate="{DataTemplate pages:StartSessionPage}"
                 Route="start" />
         </Tab>
         <Tab Title="Sessions">

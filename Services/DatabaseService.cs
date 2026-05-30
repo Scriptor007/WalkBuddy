@@ -13,6 +13,7 @@ namespace WalkBuddy.Services
 
             _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             await _database.CreateTableAsync<Models.User>();
+            await _database.CreateTableAsync<Models.Session>();
 
             return _database;
         }

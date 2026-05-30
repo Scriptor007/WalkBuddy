@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="WalkBuddy.Pages.StartSessionPage"
+             x:DataType="pageModels:StartSessionPageModel"
+             x:Name="StartPage"
+             Title="Start">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference StartPage}}"
+            EventName="Appearing"
+            Command="{Binding InitialDataLoadCommand}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="12, 0, 12, 20">
+
+            <VerticalStackLayout Padding="8, 28, 8, 20">
+                <Label Text="{Binding User.Username, StringFormat='Hi, {0}'}" 
+                       FontSize="32" 
+                       TextColor="{StaticResource OnSurface}" />
+                <Label Text="How are you feeling right now?"
+                       FontSize="22" 
+                       TextColor="{StaticResource OnSurfaceVariant}" />
+                <Label Text="Choose the emotion that feels closest."
+                       FontSize="16" 
+                       TextColor="{StaticResource OnSurfaceVariant}" />
+            </VerticalStackLayout>
+
+            <CollectionView ItemsSource="{Binding Emotions}"
+                            SelectedItem="{Binding StartEmotion}"
+                            SelectionMode="Single"
+                            Margin="0, 20, 0, 16"
+                            HorizontalOptions="Fill">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="5"
+                                     HorizontalItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="sys:String">
+                        <Border Stroke="{StaticResource Outline}"
+                                StrokeShape="RoundRectangle 8">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Outline}" />
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryContainer}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <VerticalStackLayout Padding="8"
+                                                 Spacing="8">
+                                <Ellipse Fill="{StaticResource Outline}"
+                                         WidthRequest="40"
+                                         HeightRequest="40" />
+                                <Label Text="{Binding .}"
+                                       FontSize="10"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{StaticResource OnSurface}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <VerticalStackLayout Padding="8, 0, 8, 0"
+                                 Spacing="16">
+                <Label Text="You can change this during your walk - no pressure to get it exactly right."
+                       FontSize="11"
+                       TextColor="{StaticResource OnSurface}"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       Margin="72, 0, 72, 0"/>
+
+                <Border Stroke="{StaticResource OutlineVariant}" 
+                        Padding="18, 10" 
+                        StrokeShape="RoundRectangle 8">
+                    <Label Text="{Binding WalkStats}"
+                           FontFamily="RobotoMedium"
+                           FontSize="14" 
+                           TextColor="{StaticResource OnSurface}"
+                           Opacity="0.6"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </Border>
+
+                <buttons:SfButton Text="Start walk"
+                                  Style="{StaticResource FilledButton}"
+                                  Command="{Binding CreateSessionCommand}" />
+                
+                <Label Text="Select an emotion above to begin"
+                       FontSize="11" 
+                       TextColor="{StaticResource OnSurface}"
+                       HorizontalOptions="Center"/>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
