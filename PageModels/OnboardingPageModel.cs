@@ -53,7 +53,7 @@ namespace WalkBuddy.PageModels
                 Preferences.Default.Set("isRegistered", true);
                 var toast = Toast.Make("Successfully saved data", CommunityToolkit.Maui.Core.ToastDuration.Short);
                 await toast.Show(_cancellationTokenSource.Token);
-                App.MarkOnboardingComplete();
+                await Shell.Current.GoToAsync("//start");
             }
             finally
             {
