@@ -1,11 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using WalkBuddy.Models;
 using WalkBuddy.Pages;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy.PageModels
 {
@@ -36,7 +38,7 @@ namespace WalkBuddy.PageModels
         }
 
         [RelayCommand]
-        private async Task InitialSessionLoad()
+        private async Task Appearing()
         {
             if (_isBusy)
                 return;
@@ -45,15 +47,15 @@ namespace WalkBuddy.PageModels
 
             try
             {
+                WeakReferenceMessenger.Default.Register<TimerResumeMessage>(this, (sender, args) =>
+                {
+                    TimerService.UpdateMinutes();
+                });
                 int id = Preferences.Get("active_session_id", 0);
                 Session = await _sessionRepository.GetSessionAsync(id);
                 if (TimerService.MinPassed == -1)
                 {
                     TimerService.InitTimer();
-                }
-                else
-                {
-                    TimerService.UpdateMinutes();
                 }
             }
             finally
@@ -63,9 +65,9 @@ namespace WalkBuddy.PageModels
         }
 
         [RelayCommand]
-        private async Task StopTimer()
+        private async Task Disappearing()
         {
-            TimerService.Stop();
+            WeakReferenceMessenger.Default.Unregister<TimerResumeMessage>(this);
         }
 
         [RelayCommand]
@@ -88,7 +90,7 @@ namespace WalkBuddy.PageModels
         }
 
         [RelayCommand]
-        private async Task Speak()
+        private async Task VoiceOutput()
         {
             if (enLanguage == null)
             {

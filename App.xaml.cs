@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Storage;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Storage;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy
 {
@@ -16,6 +18,12 @@ namespace WalkBuddy
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new AppShell());
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            WeakReferenceMessenger.Default.Send(new TimerResumeMessage());
         }
     }
 }

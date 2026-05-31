@@ -14,7 +14,11 @@
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
             EventName="Appearing"
-            Command="{Binding InitialSessionLoadCommand}" />
+            Command="{Binding AppearingCommand}" />
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
+            EventName="Disappearing"
+            Command="{Binding DisappearingCommand}" />
     </ContentPage.Behaviors>
 
     <ScrollView>
@@ -65,7 +69,7 @@
                                               ImageSize="24"
                                               ShowIcon="True"
                                               ImageAlignment="Default"
-                                              Command="{Binding SpeakCommand}">
+                                              Command="{Binding VoiceOutputCommand}">
                                 <buttons:SfButton.ImageSource>
                                     <FontImageSource FontFamily="MaterialSymbols"
                                                      Glyph="&#xE050;"

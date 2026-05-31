@@ -17,7 +17,7 @@
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference EditPage}}"
             EventName="Appearing"
-            Command="{Binding InitialUserLoadCommand}" />
+            Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
 
     <ContentPage.Resources>

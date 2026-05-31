@@ -15,7 +15,7 @@
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference StartPage}}"
             EventName="Appearing"
-            Command="{Binding InitialDataLoadCommand}" />
+            Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
 
     <ScrollView>
