@@ -25,7 +25,8 @@
         <VerticalStackLayout>
             <Grid ColumnDefinitions="*,Auto"
                   Padding="20, 16, 20, 8">
-                <Label Text="Your walk"
+                <Label Grid.Column="0"
+                       Text="Your walk"
                        TextColor="{StaticResource OnSurface}"
                        FontSize="16" />
                 <Label Grid.Column="1" 
@@ -39,27 +40,30 @@
 
             <VerticalStackLayout Spacing="16"
                                  Padding="20">
-                
+
                 <Grid ColumnDefinitions="Auto, *">
-                    <chips:SfChip Grid.Column="0"
-                                  Text="{Binding Session.StartEmotion}"
-                                  Stroke="{StaticResource Outline}"
-                                  CornerRadius="48"
-                                  FontFamily="RobotoMedium"
-                                  TextColor="{StaticResource OnSurfaceVariant}"
-                                  FontSize="11" />
+                    <Border BackgroundColor="{StaticResource Surface}"
+                            Stroke="{StaticResource Outline}"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="8,2">
+                    <Label Text="{Binding Session.StartEmotion, StringFormat='Feeling: {0}'}"
+                           FontSize="11"
+                           TextColor="{StaticResource OnSurfaceVariant}"
+                           FontFamily="RobotoMedium"/>
+                    </Border>
                 </Grid>
 
 
                 <Border Stroke="{StaticResource Outline}" 
                         Padding="16"
-                        StrokeShape="RoundRectangle 8">
+                        StrokeShape="RoundRectangle 8"
+                        Background="{StaticResource Surface}">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Grid.Column="0"
                                Text="{Binding MistralAnswer}"
                                FontSize="22" 
                                TextColor="{StaticResource OnSurfaceVariant}"
-                               VerticalOptions="Start" />
+                               VerticalOptions="Start"/>
                         <ContentView Grid.Column="1"
                                      Margin="8, 0, 0, 0"
                                      VerticalOptions="Start">
@@ -68,7 +72,7 @@
                                               HeightRequest="40"
                                               Background="Transparent"
                                               Stroke="{StaticResource Outline}"
-                                              StrokeThickness="1"
+                                              StrokeThickness="3"
                                               ImageSize="24"
                                               ShowIcon="True"
                                               ImageAlignment="Default"
