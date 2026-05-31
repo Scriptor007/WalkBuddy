@@ -16,9 +16,11 @@ namespace WalkBuddy.PageModels
 
         private readonly UserRepository _userRepository;
 
+        private readonly StaticDataService _staticDataService;
+
         private readonly MistralService _mistralService;
 
-        public string[] Emotions { get; } = [];
+        public List<EmotionWithIcon> Emotions { get; } = [];
 
         [ObservableProperty]
         private bool _isBusy;
@@ -28,7 +30,7 @@ namespace WalkBuddy.PageModels
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(CreateSessionCommand))]
-        private string _startEmotion = string.Empty;
+        private EmotionWithIcon _startEmotion = new();
 
         [ObservableProperty]
         private string _walkStats = "🌿 No walk completed yet";
@@ -36,12 +38,13 @@ namespace WalkBuddy.PageModels
         [ObservableProperty]
         private User _user = new();
 
-        public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository, MistralService mistralService)
+        public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository, MistralService mistralService, StaticDataService staticDataService)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
             _mistralService = mistralService;
-            Emotions = Enum.GetNames(typeof(Emotion));
+            _staticDataService = staticDataService;
+            Emotions = _staticDataService.Emotions;
         }
 
         [RelayCommand]
@@ -56,7 +59,7 @@ namespace WalkBuddy.PageModels
             {
                 User = await _userRepository.GetUserAsync();
                 Session = new();
-                StartEmotion = string.Empty;
+                StartEmotion = new EmotionWithIcon();
                 int totalWalks = await _sessionRepository.GetTotalSessions();
 
                 if (totalWalks > 0)
@@ -87,7 +90,7 @@ namespace WalkBuddy.PageModels
 
             try
             {
-                Session.StartEmotion = Enum.Parse<Emotion>(StartEmotion);
+                Session.StartEmotion = Enum.Parse<Emotion>(StartEmotion.Emotion!);
                 await _sessionRepository.SaveSessionAsync(Session);
                 string answer = await _mistralService.SendRequest(User, Session);
                 var param = new Dictionary<string, object>
@@ -119,6 +122,6 @@ namespace WalkBuddy.PageModels
             return "Today";
         }
 
-        private bool CanCreateSession() => !string.IsNullOrWhiteSpace(StartEmotion);
+        private bool CanCreateSession() => !string.IsNullOrWhiteSpace(StartEmotion.Emotion);
     }
 }

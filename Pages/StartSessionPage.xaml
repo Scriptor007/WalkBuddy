@@ -5,7 +5,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:WalkBuddy.Models"
              x:Class="WalkBuddy.Pages.StartSessionPage"
              x:DataType="pageModels:StartSessionPageModel"
              x:Name="StartPage"
@@ -46,7 +46,7 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="sys:String">
+                    <DataTemplate x:DataType="local:EmotionWithIcon">
                         <Border Stroke="{StaticResource Outline}"
                                 StrokeShape="RoundRectangle 8">
 
@@ -70,10 +70,20 @@
 
                             <VerticalStackLayout Padding="8"
                                                  Spacing="8">
-                                <Ellipse Fill="{StaticResource Outline}"
+                                <Grid>
+                                    <Ellipse Fill="{StaticResource Outline}"
                                          WidthRequest="40"
                                          HeightRequest="40" />
-                                <Label Text="{Binding .}"
+                                    <Image WidthRequest="32"
+                                           HeightRequest="32">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialSymbols"
+                                                             Glyph="{Binding Glyph}"
+                                                             Color="{StaticResource Primary}" />
+                                        </Image.Source>
+                                    </Image>
+                                </Grid>
+                                <Label Text="{Binding Emotion}"
                                        FontSize="10"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource OnSurface}" />

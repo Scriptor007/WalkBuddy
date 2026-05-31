@@ -68,8 +68,8 @@
                                               Command="{Binding SpeakCommand}">
                                 <buttons:SfButton.ImageSource>
                                     <FontImageSource FontFamily="MaterialSymbols"
-                                                 Glyph="&#xE050;"
-                                                 Color="{StaticResource Primary}" />
+                                                     Glyph="&#xE050;"
+                                                     Color="{StaticResource Primary}" />
                                 </buttons:SfButton.ImageSource>
                             </buttons:SfButton>
                         </ContentView>
