@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using WalkBuddy.Models;
 using WalkBuddy.Pages;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy.PageModels
 {

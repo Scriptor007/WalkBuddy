@@ -1,4 +1,5 @@
 ﻿using WalkBuddy.Models;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy.Services
 {

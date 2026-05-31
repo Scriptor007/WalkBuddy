@@ -5,7 +5,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
-             xmlns:local="clr-namespace:WalkBuddy.Models"
+             xmlns:local="clr-namespace:WalkBuddy.Utilities"
              x:Class="WalkBuddy.Pages.StartSessionPage"
              x:DataType="pageModels:StartSessionPageModel"
              x:Name="StartPage"
