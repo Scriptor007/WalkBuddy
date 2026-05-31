@@ -26,6 +26,8 @@ namespace WalkBuddy.PageModels
         [ObservableProperty]
         private Session? _session = new();
 
+        public Locale? enLanguage { get; set; }
+
         public NaturePromptPageModel(MistralService mistralService, SessionRepository sessionRepository, TimerService timerService)
         {
             _mistralService = mistralService;
@@ -48,6 +50,10 @@ namespace WalkBuddy.PageModels
                 if (TimerService.MinPassed == -1)
                 {
                     TimerService.InitTimer();
+                }
+                else
+                {
+                    TimerService.UpdateMinutes();
                 }
             }
             finally
@@ -79,6 +85,21 @@ namespace WalkBuddy.PageModels
         {
             Preferences.Remove("active_session_id");
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
+        }
+
+        [RelayCommand]
+        private async Task Speak()
+        {
+            if (enLanguage == null)
+            {
+                IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+                Locale? locale = locales.FirstOrDefault(l => l.Language.StartsWith("en"));
+                enLanguage = locale;
+            }
+
+            SpeechOptions options = new() { Locale = enLanguage };
+
+            await TextToSpeech.SpeakAsync(MistralAnswer, options);
         }
     }
 }
