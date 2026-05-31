@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Storage;
 using System;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using WalkBuddy.Models;
 using WalkBuddy.Pages;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy.PageModels
 {
@@ -16,59 +18,112 @@ namespace WalkBuddy.PageModels
 
         private readonly UserRepository _userRepository;
 
-        public string[] Emotions { get; } = [];
+        private readonly StaticDataService _staticDataService;
 
+        private readonly MistralService _mistralService;
+
+        public List<EmotionWithIcon> Emotions { get; } = [];
+
+        [ObservableProperty]
         private bool _isBusy;
 
         [ObservableProperty]
         private Session _session = new();
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CreateSessionCommand))]
+        private EmotionWithIcon _startEmotion = new();
+
+        [ObservableProperty]
+        private string _walkStats = "🌿 No walk completed yet";
+
+        [ObservableProperty]
         private User _user = new();
 
-        public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository)
+        public StartSessionPageModel(SessionRepository sessionRepository, UserRepository userRepository, MistralService mistralService, StaticDataService staticDataService)
         {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
-            Emotions = Enum.GetNames(typeof(Emotion));
+            _mistralService = mistralService;
+            _staticDataService = staticDataService;
+            Emotions = _staticDataService.Emotions;
         }
 
         [RelayCommand]
-        private async Task InitialDataLoad()
+        private async Task Appearing()
         {
-            if (_isBusy)
+            if (IsBusy)
                 return;
 
-            _isBusy = true;
+            IsBusy = true;
 
             try
             {
                 User = await _userRepository.GetUserAsync();
+                Session = new();
+                StartEmotion = new EmotionWithIcon();
+                int totalWalks = await _sessionRepository.GetTotalSessions();
+
+                if (totalWalks > 0)
+                {
+                    Session? latestSession = await _sessionRepository.GetLatestSessionAsync();
+
+                    if (latestSession != null)
+                    {
+                        string relativeTime = GetLatestWalkDay(latestSession.CreatedAt);
+
+                        WalkStats = $"🌿 {totalWalks} walks completed  •  Last walk {relativeTime}";
+                    }
+                }
             }
             finally
             {
-                _isBusy = false;
+                IsBusy = false;
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanCreateSession))]
         private async Task CreateSession()
         {
-            if (_isBusy)
+            if (IsBusy)
                 return;
 
-            _isBusy = true;
+            IsBusy = true;
 
             try
             {
+                Session.StartEmotion = Enum.Parse<Emotion>(StartEmotion.Emotion!);
                 await _sessionRepository.SaveSessionAsync(Session);
+                string answer = await _mistralService.SendRequest(User, Session);
+                var param = new Dictionary<string, object>
+                {
+                    { "answer", answer }
+                };
                 Preferences.Set("active_session_id", Session.ID);
-                await Shell.Current.GoToAsync(nameof(NaturePromptPage));
+                await Shell.Current.GoToAsync(nameof(NaturePromptPage), param);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             }
             finally
             {
-                _isBusy = false;
+                IsBusy = false;
             }
         }
+
+        private string GetLatestWalkDay(DateTime dateTime)
+        {
+            TimeSpan difference = DateTime.Now - dateTime;
+            if (difference.TotalDays >= 2)
+                return $"{Math.Floor(difference.TotalDays)} days ago";
+
+            if (difference.TotalDays >= 1)
+                return "Yesterday";
+
+            return "Today";
+        }
+
+        private bool CanCreateSession() => !string.IsNullOrWhiteSpace(StartEmotion.Emotion);
     }
 }

@@ -29,8 +29,8 @@
         <Tab Title="Sessions">
             <Tab.Icon>
                 <FontImageSource FontFamily="MaterialSymbols"
-                     Glyph="&#xE8B5;"
-                     Color="{StaticResource OnSurfaceVariant}" />
+                                 Glyph="&#xE8B5;"
+                                 Color="{StaticResource OnSurfaceVariant}" />
             </Tab.Icon>
             <ShellContent
                 Title="Sessions"
@@ -40,8 +40,8 @@
         <Tab Title="Settings">
             <Tab.Icon>
                 <FontImageSource FontFamily="MaterialSymbols"
-                     Glyph="&#xE8B8;"
-                     Color="{StaticResource OnSurfaceVariant}" />
+                                 Glyph="&#xE8B8;"
+                                 Color="{StaticResource OnSurfaceVariant}" />
             </Tab.Icon>
             <ShellContent
                 Title="Settings"

@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Storage;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Storage;
+using WalkBuddy.Utilities;
 
 namespace WalkBuddy
 {
@@ -15,28 +17,13 @@ namespace WalkBuddy
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-#if DEBUG
-            Preferences.Set("onboarding_done", true);
-#endif
-            var onboardingDone = Preferences.Get(OnboardingDoneKey, false);
-
-            var shell = new AppShell();
-            if (!onboardingDone)
-            {
-                _ = shell.GoToAsync("//onboarding");
-            }
-
-            return new Window(shell);
+            return new Window(new AppShell());
         }
 
-        public static void MarkOnboardingComplete()
+        protected override void OnResume()
         {
-            Preferences.Set(OnboardingDoneKey, true);
-            var window = Current?.Windows.FirstOrDefault();
-            if (window != null)
-            {
-                window.Page = new AppShell();
-            }
+            base.OnResume();
+            WeakReferenceMessenger.Default.Send(new TimerResumeMessage());
         }
     }
 }

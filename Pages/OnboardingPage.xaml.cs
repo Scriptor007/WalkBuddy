@@ -8,18 +8,6 @@ public partial class OnboardingPage : ContentPage
 		BindingContext = model;
 	}
 
-	public OnboardingPage()
-	{
-		InitializeComponent();
-		var services = Application.Current?.Handler?.MauiContext?.Services;
-		if (services != null)
-		{
-			BindingContext = new OnboardingPageModel(
-				services.GetRequiredService<UserRepository>(),
-				services.GetRequiredService<StaticDataService>());
-		}
-	}
-
     protected override bool OnBackButtonPressed()
     {
 		return true;

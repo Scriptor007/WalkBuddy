@@ -46,7 +46,7 @@ namespace WalkBuddy.PageModels
         }
 
         [RelayCommand]
-        private async Task InitialUserLoad()
+        private async Task Appearing()
         {
             if (_isBusy)
                 return;

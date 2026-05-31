@@ -5,7 +5,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:WalkBuddy.Utilities"
              x:Class="WalkBuddy.Pages.StartSessionPage"
              x:DataType="pageModels:StartSessionPageModel"
              x:Name="StartPage"
@@ -15,7 +15,7 @@
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference StartPage}}"
             EventName="Appearing"
-            Command="{Binding InitialDataLoadCommand}" />
+            Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
 
     <ScrollView>
@@ -34,7 +34,7 @@
             </VerticalStackLayout>
 
             <CollectionView ItemsSource="{Binding Emotions}"
-                            SelectedItem="{Binding Session.StartEmotion}"
+                            SelectedItem="{Binding StartEmotion}"
                             SelectionMode="Single"
                             Margin="0, 20, 0, 16"
                             HorizontalOptions="Fill">
@@ -46,7 +46,7 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="sys:String">
+                    <DataTemplate x:DataType="local:EmotionWithIcon">
                         <Border Stroke="{StaticResource Outline}"
                                 StrokeShape="RoundRectangle 8">
 
@@ -70,10 +70,20 @@
 
                             <VerticalStackLayout Padding="8"
                                                  Spacing="8">
-                                <Ellipse Fill="{StaticResource Outline}"
+                                <Grid>
+                                    <Ellipse Fill="{StaticResource Outline}"
                                          WidthRequest="40"
                                          HeightRequest="40" />
-                                <Label Text="{Binding .}"
+                                    <Image WidthRequest="32"
+                                           HeightRequest="32">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialSymbols"
+                                                             Glyph="{Binding Glyph}"
+                                                             Color="{StaticResource Primary}" />
+                                        </Image.Source>
+                                    </Image>
+                                </Grid>
+                                <Label Text="{Binding Emotion}"
                                        FontSize="10"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource OnSurface}" />
@@ -95,7 +105,7 @@
                 <Border Stroke="{StaticResource OutlineVariant}" 
                         Padding="18, 10" 
                         StrokeShape="RoundRectangle 8">
-                    <Label Text="🌿 3 walks completed · Last walk 2 days ago."
+                    <Label Text="{Binding WalkStats}"
                            FontFamily="RobotoMedium"
                            FontSize="14" 
                            TextColor="{StaticResource OnSurface}"
@@ -112,6 +122,8 @@
                        FontSize="11" 
                        TextColor="{StaticResource OnSurface}"
                        HorizontalOptions="Center"/>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

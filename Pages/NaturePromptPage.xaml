@@ -1,50 +1,120 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
              x:Class="WalkBuddy.Pages.NaturePromptPage"
+             xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
+             x:DataType="pageModels:NaturePromptPageModel"
+             x:Name="NaturePage"
              Title="Your walk">
-    <ScrollView>
-        <VerticalStackLayout Padding="20,14,20,28" Spacing="16">
 
-            <Grid ColumnDefinitions="*,Auto">
-                <Label Text="Your walk" FontSize="17" FontAttributes="Bold" TextColor="#1A1A1A" />
-                <Label Grid.Column="1" Text="22 min" FontSize="12" TextColor="#AAAAAA" />
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
+            EventName="Appearing"
+            Command="{Binding AppearingCommand}" />
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference NaturePage}}"
+            EventName="Disappearing"
+            Command="{Binding DisappearingCommand}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto"
+                  Padding="20, 16, 20, 8">
+                <Label Text="Your walk"
+                       TextColor="{StaticResource OnSurface}"
+                       FontSize="16" />
+                <Label Grid.Column="1" 
+                       Text="{Binding TimerService.MinPassed, StringFormat='{0} min'}" 
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       FontSize="16" />
             </Grid>
 
-            <Border Stroke="#E4E4E4" Background="#FFFFFF" Padding="12,6"
-                    StrokeShape="RoundRectangle 18" HorizontalOptions="Start">
-                <Label Text="Feeling: Stressed" FontSize="12" TextColor="#666666" />
-            </Border>
+            <BoxView HeightRequest="1"
+                     Color="{StaticResource Outline}" />
 
-            <Border Stroke="#E8E8E8" Background="#F8F8F8" Padding="20"
-                    StrokeShape="RoundRectangle 18">
-                <Grid>
-                    <Label Text="Notice the colours around you. Find one that stands out and follow it with your eyes."
-                           FontSize="18" TextColor="#1A1A1A" LineHeight="1.6" />
-                    <Border Background="#FFFFFF" Stroke="#E0E0E0" WidthRequest="44" HeightRequest="44"
-                            StrokeShape="RoundRectangle 22" HorizontalOptions="End" VerticalOptions="Start">
-                        <Label Text="" HorizontalOptions="Center" VerticalOptions="Center" />
-                    </Border>
+            <VerticalStackLayout Spacing="16"
+                                 Padding="20">
+                
+                <Grid ColumnDefinitions="Auto, *">
+                    <chips:SfChip Grid.Column="0"
+                                  Text="{Binding Session.StartEmotion}"
+                                  Stroke="{StaticResource Outline}"
+                                  CornerRadius="48"
+                                  FontFamily="RobotoMedium"
+                                  TextColor="{StaticResource OnSurfaceVariant}"
+                                  FontSize="11" />
                 </Grid>
-            </Border>
 
-            <Label Text="How are you feeling now?"
-                   FontSize="12" FontAttributes="Bold" TextColor="#AAAAAA"
-                   TextTransform="Uppercase" />
 
-            <chips:SfChipGroup>
-                <chips:SfChip Text="Stressed" />
-                <chips:SfChip Text="Anxious" />
-                <chips:SfChip Text="Sad" />
-                <chips:SfChip Text="Neutral" />
-                <chips:SfChip Text="Content" />
-            </chips:SfChipGroup>
+                <Border Stroke="{StaticResource Outline}" 
+                        Padding="16"
+                        StrokeShape="RoundRectangle 8">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0"
+                               Text="{Binding MistralAnswer}"
+                               FontSize="22" 
+                               TextColor="{StaticResource OnSurfaceVariant}"
+                               VerticalOptions="Start" />
+                        <ContentView Grid.Column="1"
+                                     Margin="8, 0, 0, 0"
+                                     VerticalOptions="Start">
+                            <buttons:SfButton CornerRadius="20"
+                                              WidthRequest="40"
+                                              HeightRequest="40"
+                                              Background="Transparent"
+                                              Stroke="{StaticResource Outline}"
+                                              StrokeThickness="1"
+                                              ImageSize="24"
+                                              ShowIcon="True"
+                                              ImageAlignment="Default"
+                                              Command="{Binding VoiceOutputCommand}">
+                                <buttons:SfButton.ImageSource>
+                                    <FontImageSource FontFamily="MaterialSymbols"
+                                                     Glyph="&#xE050;"
+                                                     Color="{StaticResource Primary}" />
+                                </buttons:SfButton.ImageSource>
+                            </buttons:SfButton>
+                        </ContentView>
+                    </Grid>
+                </Border>
 
-            <buttons:SfButton Text="New prompt" HeightRequest="52" CornerRadius="14" />
-            <buttons:SfButton Text="End session" HeightRequest="48" CornerRadius="14"
-                              Clicked="EndSession_Clicked" />
+                <Label Text="Go explore. Come back when you're ready."
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       FontSize="11"
+                       HorizontalOptions="Center"/>
+
+
+                <buttons:SfButton Text="Done with this prompt"
+                                  Background="{StaticResource Primary}"
+                                  TextColor="{StaticResource OnPrimary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding FinishCurrentActivityCommand}" />
+
+                <buttons:SfButton Text="New prompt"
+                                  Background="Transparent"
+                                  Stroke="{StaticResource Outline}"
+                                  StrokeThickness="1"
+                                  TextColor="{StaticResource Primary}"
+                                  CornerRadius="8"
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding GetNewPromptCommand}">
+                </buttons:SfButton>
+
+                <buttons:SfButton Text="End session"
+                                  Background="Transparent"
+                                  TextColor="{StaticResource Primary}"
+                                  CornerRadius="8"
+                                  Stroke="{StaticResource Outline}"
+                                  StrokeThickness="1"
+                                  FontFamily="RobotoMedium"
+                                  Command="{Binding EndSessionCommand}" />
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>
