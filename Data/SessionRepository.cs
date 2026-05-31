@@ -27,13 +27,7 @@ namespace WalkBuddy.Data
             return session;
         }
 
-        public async Task<Session?> GetSessionAsync(int id)
-        {
-            SQLiteAsyncConnection db = await _databaseService.Init();
-            return await db.Table<Session>()
-                .Where(s => s.ID == id)
-                .FirstOrDefaultAsync();
-        }
+  
 
         public async Task<int> GetTotalSessions()
         {
@@ -42,13 +36,7 @@ namespace WalkBuddy.Data
                 .CountAsync();
         }
 
-        public async Task<Session?> GetLatestSessionAsync()
-        {
-            SQLiteAsyncConnection db = await _databaseService.Init();
-            return await db.Table<Session>()
-                .OrderByDescending(s => s.CreatedAt)
-                .FirstOrDefaultAsync();
-        }
+
 
         public async Task<Session?> GetSessionAsync(int id)
         {
