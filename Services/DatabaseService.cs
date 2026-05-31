@@ -13,12 +13,6 @@ namespace WalkBuddy.Services
             if (_database != null)
                 return _database;
 
-#if DEBUG
-            if (File.Exists(Constants.DatabasePath))
-            {
-                File.Delete(Constants.DatabasePath);
-            }
-#endif
 
             _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             await _database.CreateTableAsync<User>();
