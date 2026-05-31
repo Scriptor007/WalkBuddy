@@ -34,6 +34,9 @@
                        FontSize="16" />
             </Grid>
 
+            <BoxView HeightRequest="1"
+                     Color="{StaticResource Outline}" />
+
             <VerticalStackLayout Spacing="16"
                                  Padding="20">
                 
