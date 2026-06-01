@@ -63,11 +63,10 @@
                            FontSize="11"
                            TextColor="{StaticResource OnSurfaceVariant}" />
                     <Border Stroke="{StaticResource Outline}"
-                        StrokeShape="RoundRectangle 8"
-                        Padding="16"
-                        Background="{StaticResource Surface}">
-                        <ChipControl:SfChipGroup 
-                                                 SelectedItem="{Binding CheckIn}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="0, -16, 0, 8"
+                            Background="{StaticResource Surface}">
+                        <ChipControl:SfChipGroup SelectedItem="{Binding CheckIn}"
                                                  ChipType="Choice">
                             <ChipControl:SfChipGroup.Items>
                                 <ChipControl:SfChip Text="Grounding - Felt anchored and present"
@@ -79,12 +78,13 @@
                                 <ChipControl:SfChip Text="Calming - Felt less activated, more peaceful"
                                                     Margin="0, 8, 0, 0"
                                                     Stroke="{StaticResource Outline}"/>
-                                <ChipControl:SfChip Text="Didn't quite land - Prompt wasn't right for this moment"
+                                <ChipControl:SfChip Text="Didn't quite land - Prompt didn't fit"
                                                 Margin="0, 8, 0, 0"
                                                 Stroke="{StaticResource Outline}"/>
                             </ChipControl:SfChipGroup.Items>
                             <ChipControl:SfChipGroup.ChipLayout>
-                                <FlexLayout Wrap="Wrap"/>
+                                <FlexLayout Wrap="Wrap"
+                                            Padding="16"/>
                             </ChipControl:SfChipGroup.ChipLayout>
                         </ChipControl:SfChipGroup>
                     </Border>
@@ -103,6 +103,8 @@
                                       StrokeThickness="1"
                                       FontFamily="RobotoMedium"
                                       Command="{Binding EndSessionCommand}" />
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </VerticalStackLayout>

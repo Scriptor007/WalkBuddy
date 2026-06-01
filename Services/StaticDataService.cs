@@ -15,8 +15,6 @@ namespace WalkBuddy.Services
 
         public List<string> Mobility { get; } = ["I can walk freely", "I have some mobility limitations"];
 
-        public List<string> CheckInFeelings { get; } = ["Grounding - Felt anchored and present", "Uplifting - Felt lighter or more positive", "Calming - Felt less activated, more peaceful", "Didn't quite land - Prompt wasn't right for this moment"];
-
         public List<EmotionWithIcon> Emotions { get; } = [
             new EmotionWithIcon(Emotion.Stressed.ToString(), "\uF6A2"),
             new EmotionWithIcon(Emotion.Low.ToString(), "\uF6A1"),

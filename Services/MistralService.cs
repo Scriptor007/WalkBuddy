@@ -16,8 +16,6 @@ namespace WalkBuddy.Services
 
         private readonly SessionRepository _sessionRepository;
 
-        public Session CurrentSession {  get; private set; } = new();
-
         public string MistralAnswer { get; private set; } = string.Empty;
 
         public MistralService(HttpClient client, SessionRepository sessionRepository)
@@ -30,13 +28,13 @@ namespace WalkBuddy.Services
         {
             CoordinatesDto coordinates = await GetCoordinates();
 
-            string payload = BuildPayload(user, session, coordinates);
+            string contentText = BuildPayload(user, session, coordinates);
 
             var request = new
             {
                 agent_id = "ag_019e10fe28457606995cc3c396988026",
                 agent_version = 16,
-                inputs = new[] { new { role = "user", content = payload } }
+                inputs = new[] { new { role = "user", content = contentText } }
             };
 
             string requestPayload = JsonSerializer.Serialize(request);
@@ -58,21 +56,25 @@ namespace WalkBuddy.Services
 
             Preferences.Set("conversation_id", conversation_id);
 
-            session.PromptCount += 1;
+            session.PromptCount++;
             await _sessionRepository.SaveSessionAsync(session);
 
             MistralAnswer = botAnswer ?? "Server is currently not available";
-            CurrentSession = session;
             return MistralAnswer;
         }
 
-        public async Task<string> GetNewPrompt()
+        public async Task<string> GetNewPrompt(string? checkIn = null)
         {
+            int id = Preferences.Get("active_session_id", 0);
+            Session? currSession = await _sessionRepository.GetSessionAsync(id);
+
             string conversationId = Preferences.Get("conversation_id", "");
+
+            string contentText = checkIn == null ? "(New Prompt) Give me another prompt" : "(Check In)" + checkIn;
 
             var request = new
             {
-                inputs = new[] { new { role = "user", content = "(New Prompt) Give me another prompt" } }
+                inputs = new[] { new { role = "user", content = contentText } }
             };
 
             string requestPayload = JsonSerializer.Serialize(request);
@@ -94,8 +96,8 @@ namespace WalkBuddy.Services
 
             Preferences.Set("conversation_id", conversation_id);
 
-            CurrentSession.PromptCount += 1;
-            await _sessionRepository.SaveSessionAsync(CurrentSession);
+            currSession.PromptCount++;
+            await _sessionRepository.SaveSessionAsync(currSession);
 
             MistralAnswer = botAnswer ?? "Server is currently not available";
             return MistralAnswer;

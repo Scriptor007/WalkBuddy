@@ -115,6 +115,8 @@
                                   StrokeThickness="1"
                                   FontFamily="RobotoMedium"
                                   Command="{Binding EndSessionCommand}" />
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </VerticalStackLayout>

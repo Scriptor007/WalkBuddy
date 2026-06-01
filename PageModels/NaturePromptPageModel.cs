@@ -18,8 +18,9 @@ namespace WalkBuddy.PageModels
 
         private readonly SessionRepository _sessionRepository;
 
-        private readonly TimerService _timerService;
+        public TimerService TimerService { get; }
 
+        [ObservableProperty]
         private bool _isBusy;
 
         [ObservableProperty]
@@ -34,33 +35,33 @@ namespace WalkBuddy.PageModels
         {
             _mistralService = mistralService;
             _sessionRepository = sessionRepository;
-            _timerService = timerService;
+            TimerService = timerService;
         }
 
         [RelayCommand]
         private async Task Appearing()
         {
-            if (_isBusy)
+            if (IsBusy)
                 return;
 
-            _isBusy = true;
+            IsBusy = true;
 
             try
             {
                 WeakReferenceMessenger.Default.Register<TimerResumeMessage>(this, (sender, args) =>
                 {
-                    _timerService.UpdateMinutes();
+                    TimerService.UpdateMinutes();
                 });
                 int id = Preferences.Get("active_session_id", 0);
                 Session = await _sessionRepository.GetSessionAsync(id);
-                if (_timerService.MinPassed == -1)
+                if (TimerService.MinPassed == -1)
                 {
-                    _timerService.InitTimer();
+                    TimerService.InitTimer();
                 }
             }
             finally
             {
-                _isBusy = false;
+                IsBusy = false;
             }
         }
 
@@ -79,14 +80,30 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task GetNewPrompt()
         {
-            MistralAnswer = await _mistralService.GetNewPrompt();
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                MistralAnswer = await _mistralService.GetNewPrompt();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task EndSession()
         {
             Preferences.Remove("active_session_id");
-            _timerService.Stop();
+            TimerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
         }
 
