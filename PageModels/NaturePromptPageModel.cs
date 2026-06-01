@@ -18,7 +18,7 @@ namespace WalkBuddy.PageModels
 
         private readonly SessionRepository _sessionRepository;
 
-        public TimerService TimerService { get; }
+        private readonly TimerService _timerService;
 
         private bool _isBusy;
 
@@ -34,7 +34,7 @@ namespace WalkBuddy.PageModels
         {
             _mistralService = mistralService;
             _sessionRepository = sessionRepository;
-            TimerService = timerService;
+            _timerService = timerService;
         }
 
         [RelayCommand]
@@ -49,13 +49,13 @@ namespace WalkBuddy.PageModels
             {
                 WeakReferenceMessenger.Default.Register<TimerResumeMessage>(this, (sender, args) =>
                 {
-                    TimerService.UpdateMinutes();
+                    _timerService.UpdateMinutes();
                 });
                 int id = Preferences.Get("active_session_id", 0);
                 Session = await _sessionRepository.GetSessionAsync(id);
-                if (TimerService.MinPassed == -1)
+                if (_timerService.MinPassed == -1)
                 {
-                    TimerService.InitTimer();
+                    _timerService.InitTimer();
                 }
             }
             finally
@@ -86,6 +86,7 @@ namespace WalkBuddy.PageModels
         private async Task EndSession()
         {
             Preferences.Remove("active_session_id");
+            _timerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
         }
 

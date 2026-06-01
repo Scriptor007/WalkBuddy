@@ -2,6 +2,7 @@
 using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
+using Syncfusion.Maui.Core.Hosting;
 using System.Net.Http.Headers;
 using WalkBuddy.Pages;
 
@@ -21,6 +22,7 @@ namespace WalkBuddy
 #endif
                 })
                 .ConfigureSyncfusionToolkit()
+                .ConfigureSyncfusionCore()
                 .UseMaterialMauiIcons()
                 .ConfigureMauiHandlers(handlers =>
                 {

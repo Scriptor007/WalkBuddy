@@ -5,6 +5,8 @@
              x:Class="WalkBuddy.Pages.CheckInPage"
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              x:DataType="pageModels:CheckInPageModel"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:ChipControl="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
              x:Name="CheckIn"
              Title="Check in">
 
@@ -19,10 +21,90 @@
             Command="{Binding DisappearingCommand}" />
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding TimerService.MinPassed}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto"
+                  Padding="20, 16, 20, 8">
+                <Label Grid.Column="0"
+                       Text="Your walk"
+                       TextColor="{StaticResource OnSurface}"
+                       FontSize="16" />
+                <Label Grid.Column="1" 
+                       Text="{Binding TimerService.MinPassed, StringFormat='{0} min'}" 
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       FontSize="16" />
+            </Grid>
+
+            <BoxView HeightRequest="1"
+                     Color="{StaticResource Outline}" />
+
+            <VerticalStackLayout Padding="20"
+                                 Spacing="16">
+                <Label Text="How did that feel?"
+                       FontSize="22"
+                       TextColor="{StaticResource OnSurfaceVariant}" />
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="You just tried:"
+                           FontSize="11"
+                           TextColor="{StaticResource OnSurfaceVariant}" />
+                    <Border Stroke="{StaticResource Outline}"
+                            StrokeShape="RoundRectangle 8"
+                            Background="{StaticResource Surface}"
+                            Padding="8">
+                        <Label Text="Notice the colours around you. Find one that stands out — it could be anything. Follow it with your eyes until it leads somewhere unexpected."
+                               FontSize="12"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Choose a feeling:"
+                           FontSize="11"
+                           TextColor="{StaticResource OnSurfaceVariant}" />
+                    <Border Stroke="{StaticResource Outline}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="16"
+                        Background="{StaticResource Surface}">
+                        <ChipControl:SfChipGroup 
+                                                 SelectedItem="{Binding CheckIn}"
+                                                 ChipType="Choice">
+                            <ChipControl:SfChipGroup.Items>
+                                <ChipControl:SfChip Text="Grounding - Felt anchored and present"
+                                                    Margin="0, 8, 0, 0"
+                                                    Stroke="{StaticResource Outline}" />
+                                <ChipControl:SfChip Text="Uplifting - Felt lighter or more positive"
+                                                    Margin="0, 8, 0, 0"
+                                                    Stroke="{StaticResource Outline}"/>
+                                <ChipControl:SfChip Text="Calming - Felt less activated, more peaceful"
+                                                    Margin="0, 8, 0, 0"
+                                                    Stroke="{StaticResource Outline}"/>
+                                <ChipControl:SfChip Text="Didn't quite land - Prompt wasn't right for this moment"
+                                                Margin="0, 8, 0, 0"
+                                                Stroke="{StaticResource Outline}"/>
+                            </ChipControl:SfChipGroup.Items>
+                            <ChipControl:SfChipGroup.ChipLayout>
+                                <FlexLayout Wrap="Wrap"/>
+                            </ChipControl:SfChipGroup.ChipLayout>
+                        </ChipControl:SfChipGroup>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <buttons:SfButton Style="{StaticResource FilledButton}"
+                                      Text="Next prompt"
+                                      Command="{Binding NextPromptCommand}"/>
+                    
+                    <buttons:SfButton Text="End session"
+                                      Background="Transparent"
+                                      TextColor="{StaticResource Primary}"
+                                      CornerRadius="8"
+                                      Stroke="{StaticResource Outline}"
+                                      StrokeThickness="1"
+                                      FontFamily="RobotoMedium"
+                                      Command="{Binding EndSessionCommand}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
