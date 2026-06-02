@@ -20,6 +20,12 @@ public partial class ReflectionPage : ContentPage
 		}
 	}
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Shell.Current.GoToAsync("//start");
+    }
+
     protected override bool OnBackButtonPressed()
     {
         return true;

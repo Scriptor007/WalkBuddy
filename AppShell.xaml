@@ -15,7 +15,7 @@
                   Shell.TabBarIsVisible="False" />
 
     <TabBar>
-        <Tab Title="Start">
+        <Tab x:Name="StartTab" Title="Start">
             <Tab.Icon>
                 <FontImageSource FontFamily="MaterialSymbols"
                                  Glyph="&#xE88A;"

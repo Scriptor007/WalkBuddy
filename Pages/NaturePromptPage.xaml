@@ -8,7 +8,9 @@
              xmlns:pageModels="clr-namespace:WalkBuddy.PageModels"
              x:DataType="pageModels:NaturePromptPageModel"
              x:Name="NaturePage"
-             Title="Your walk">
+             Title="Your walk"
+             HideSoftInputOnTapped="True"
+                Shell.BackButtonBehavior="{BackButtonBehavior IsVisible=False, IsEnabled=False}">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
