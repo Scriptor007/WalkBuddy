@@ -17,7 +17,9 @@ namespace WalkBuddy.PageModels
             var dateText = session.CreatedAt.Date == DateTime.Today
                 ? "Today"
                 : session.CreatedAt.ToString("dddd, d MMM");
-            var promptPreview = "No prompt saved yet.";
+            var promptPreview = string.IsNullOrWhiteSpace(session.Note)
+                ? "No reflection yet."
+                : session.Note.Trim();
             var reflectionPreview = string.IsNullOrWhiteSpace(session.Note)
                 ? "No reflection yet"
                 : session.Note.Trim();

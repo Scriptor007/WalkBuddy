@@ -19,4 +19,9 @@ public partial class ReflectionPage : ContentPage
 			BindingContext = services.GetRequiredService<ReflectionPageModel>();
 		}
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
+    }
 }
