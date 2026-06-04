@@ -11,6 +11,7 @@ using WalkBuddy.Utilities;
 
 namespace WalkBuddy.PageModels
 {
+    [QueryProperty(nameof(MistralAnswer), "answer")]
     public partial class CheckInPageModel : ObservableObject
     {
         public TimerService TimerService { get; }
@@ -23,6 +24,9 @@ namespace WalkBuddy.PageModels
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(NextPromptCommand))]
         private SfChip? _checkIn;
+
+        [ObservableProperty]
+        private string _mistralAnswer = string.Empty;
 
         public CheckInPageModel(TimerService timerService, MistralService mistralService)
         {
@@ -75,6 +79,9 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task EndSession()
         {
+            if (IsBusy)
+                return;
+
             Preferences.Remove("active_session_id");
             TimerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));

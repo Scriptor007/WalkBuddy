@@ -52,7 +52,7 @@
                             StrokeShape="RoundRectangle 8"
                             Background="{StaticResource Surface}"
                             Padding="8">
-                        <Label Text="Notice the colours around you. Find one that stands out — it could be anything. Follow it with your eyes until it leads somewhere unexpected."
+                        <Label Text="{Binding MistralAnswer}"
                                FontSize="12"
                                TextColor="{StaticResource OnSurfaceVariant}" />
                     </Border>

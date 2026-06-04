@@ -74,7 +74,14 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task FinishCurrentActivity()
         {
-            await Shell.Current.GoToAsync(nameof(CheckInPage));
+            if (IsBusy)
+                return;
+
+            var param = new Dictionary<string, object>
+                {
+                    { "answer", MistralAnswer }
+                };
+            await Shell.Current.GoToAsync(nameof(CheckInPage), param);
         }
 
         [RelayCommand]
@@ -102,6 +109,9 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task EndSession()
         {
+            if (IsBusy)
+                return;
+
             Preferences.Remove("active_session_id");
             TimerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
