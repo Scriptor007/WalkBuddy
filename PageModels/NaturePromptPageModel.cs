@@ -20,6 +20,7 @@ namespace WalkBuddy.PageModels
 
         public TimerService TimerService { get; }
 
+        [ObservableProperty]
         private bool _isBusy;
 
         [ObservableProperty]
@@ -40,10 +41,10 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-            if (_isBusy)
+            if (IsBusy)
                 return;
 
-            _isBusy = true;
+            IsBusy = true;
 
             try
             {
@@ -60,7 +61,7 @@ namespace WalkBuddy.PageModels
             }
             finally
             {
-                _isBusy = false;
+                IsBusy = false;
             }
         }
 
@@ -79,13 +80,30 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task GetNewPrompt()
         {
-            MistralAnswer = await _mistralService.GetNewPrompt();
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                MistralAnswer = await _mistralService.GetNewPrompt();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task EndSession()
         {
             Preferences.Remove("active_session_id");
+            TimerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
         }
 

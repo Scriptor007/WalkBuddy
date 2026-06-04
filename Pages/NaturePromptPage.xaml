@@ -46,7 +46,7 @@
                             Stroke="{StaticResource Outline}"
                             StrokeShape="RoundRectangle 12"
                             Padding="8,2">
-                    <Label Text="{Binding Session.StartEmotion, StringFormat='Feeling: {0}'}"
+                        <Label Text="{Binding Session.StartEmotion, StringFormat='Feeling: {0}'}"
                            FontSize="11"
                            TextColor="{StaticResource OnSurfaceVariant}"
                            FontFamily="RobotoMedium"/>
@@ -92,15 +92,12 @@
                        FontSize="11"
                        HorizontalOptions="Center"/>
 
-
-                <buttons:SfButton Text="Done with this prompt"
-                                  Background="{StaticResource Primary}"
-                                  TextColor="{StaticResource OnPrimary}"
-                                  CornerRadius="8"
-                                  FontFamily="RobotoMedium"
+                <VerticalStackLayout Spacing="8">
+                    <buttons:SfButton Text="Done with this prompt"
+                                  Style="{StaticResource FilledButton}"
                                   Command="{Binding FinishCurrentActivityCommand}" />
 
-                <buttons:SfButton Text="New prompt"
+                    <buttons:SfButton Text="New prompt"
                                   Background="Transparent"
                                   Stroke="{StaticResource Outline}"
                                   StrokeThickness="1"
@@ -108,9 +105,9 @@
                                   CornerRadius="8"
                                   FontFamily="RobotoMedium"
                                   Command="{Binding GetNewPromptCommand}">
-                </buttons:SfButton>
+                    </buttons:SfButton>
 
-                <buttons:SfButton Text="End session"
+                    <buttons:SfButton Text="End session"
                                   Background="Transparent"
                                   TextColor="{StaticResource Primary}"
                                   CornerRadius="8"
@@ -118,8 +115,10 @@
                                   StrokeThickness="1"
                                   FontFamily="RobotoMedium"
                                   Command="{Binding EndSessionCommand}" />
-            </VerticalStackLayout>
 
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
