@@ -70,7 +70,7 @@ namespace WalkBuddy.Services
 
             string conversationId = Preferences.Get("conversation_id", "");
 
-            string contentText = checkIn != null ? "(New Prompt) Give me another prompt" : "(Check In)" + checkIn;
+            string contentText = checkIn == null ? "(New Prompt) Give me another prompt" : "(Check In)" + checkIn;
 
             var request = new
             {
