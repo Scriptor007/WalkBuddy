@@ -33,7 +33,7 @@ namespace WalkBuddy.Services
             var request = new
             {
                 agent_id = "ag_019e10fe28457606995cc3c396988026",
-                agent_version = 19,
+                agent_version = 23,
                 inputs = new[] { new { role = "user", content = contentText } }
             };
 
@@ -70,7 +70,7 @@ namespace WalkBuddy.Services
 
             string conversationId = Preferences.Get("conversation_id", "");
 
-            string contentText = checkIn == null ? "(New Prompt) Give me another prompt" : "(Check In)" + checkIn;
+            string contentText = checkIn != null ? "(New Prompt) Give me another prompt" : "(Check In)" + checkIn;
 
             var request = new
             {
