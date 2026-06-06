@@ -85,6 +85,7 @@ namespace WalkBuddy.PageModels
                 Session.Note = Note ?? string.Empty;
                 await _sessionRepository.SaveSessionAsync(Session);
                 Preferences.Set("active_session_id", 0);
+                await Shell.Current.Navigation.PopToRootAsync();
                 await Shell.Current.GoToAsync("//sessions");
             }
             finally
@@ -97,6 +98,7 @@ namespace WalkBuddy.PageModels
         private async Task Skip()
         {
             Preferences.Set("active_session_id", 0);
+            await Shell.Current.Navigation.PopToRootAsync();
             await Shell.Current.GoToAsync("//sessions");
         }
     }

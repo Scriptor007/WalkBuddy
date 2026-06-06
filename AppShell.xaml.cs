@@ -27,6 +27,7 @@ namespace WalkBuddy
             }
         }
 
+
         public static async Task DisplaySnackbarAsync(string message)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
