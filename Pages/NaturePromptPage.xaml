@@ -99,7 +99,7 @@
                                   Style="{StaticResource FilledButton}"
                                   Command="{Binding FinishCurrentActivityCommand}" />
 
-                    <buttons:SfButton Text="New prompt"
+                    <buttons:SfButton Text="I didn't like the prompt - Generate new prompt"
                                   Background="Transparent"
                                   Stroke="{StaticResource Outline}"
                                   StrokeThickness="1"
@@ -109,7 +109,7 @@
                                   Command="{Binding GetNewPromptCommand}">
                     </buttons:SfButton>
 
-                    <buttons:SfButton Text="End session"
+                    <buttons:SfButton Text="End walk"
                                   Background="Transparent"
                                   TextColor="{StaticResource Primary}"
                                   CornerRadius="8"

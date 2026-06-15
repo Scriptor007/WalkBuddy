@@ -95,7 +95,7 @@
                                       Text="Next prompt"
                                       Command="{Binding NextPromptCommand}"/>
                     
-                    <buttons:SfButton Text="End session"
+                    <buttons:SfButton Text="End walk"
                                       Background="Transparent"
                                       TextColor="{StaticResource Primary}"
                                       CornerRadius="8"
