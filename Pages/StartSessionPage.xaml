@@ -28,7 +28,7 @@
                 <Label Text="How are you feeling right now?"
                        FontSize="22" 
                        TextColor="{StaticResource OnSurfaceVariant}" />
-                <Label Text="Choose the emotion that feels closest."
+                <Label Text="Select an emotion below and start your walk."
                        FontSize="16" 
                        TextColor="{StaticResource OnSurfaceVariant}" />
             </VerticalStackLayout>
@@ -95,33 +95,18 @@
 
             <VerticalStackLayout Padding="8, 0, 8, 0"
                                  Spacing="16">
-                <Label Text="You can change this during your walk - no pressure to get it exactly right."
-                       FontSize="11"
+                <Label Text="{Binding WalkStats}"
+                       FontFamily="RobotoMedium"
+                       FontSize="14" 
                        TextColor="{StaticResource OnSurface}"
-                       HorizontalTextAlignment="Center"
+                       Opacity="0.8"
                        HorizontalOptions="Center"
-                       Margin="72, 0, 72, 0"/>
-
-                <Border Stroke="{StaticResource OutlineVariant}" 
-                        Padding="18, 10" 
-                        StrokeShape="RoundRectangle 8">
-                    <Label Text="{Binding WalkStats}"
-                           FontFamily="RobotoMedium"
-                           FontSize="14" 
-                           TextColor="{StaticResource OnSurface}"
-                           Opacity="0.6"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"/>
-                </Border>
+                       HorizontalTextAlignment="Center"
+                       Margin="0, 10, 0, 10"/>
 
                 <buttons:SfButton Text="Start walk"
                                   Style="{StaticResource FilledButton}"
                                   Command="{Binding CreateSessionCommand}" />
-                
-                <Label Text="Select an emotion above to begin"
-                       FontSize="11" 
-                       TextColor="{StaticResource OnSurface}"
-                       HorizontalOptions="Center"/>
 
                 <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </VerticalStackLayout>
