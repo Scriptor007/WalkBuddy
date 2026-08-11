@@ -21,11 +21,11 @@
         <VerticalStackLayout Padding="20,28,20,28" Spacing="16">
 
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border WidthRequest="60" HeightRequest="60"
-                        BackgroundColor="{StaticResource SurfaceVariant}"
-                        Stroke="{StaticResource Outline}"
-                        StrokeShape="RoundRectangle 30">
-                    <Label Text="🌿" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Border WidthRequest="64" HeightRequest="64"
+                        BackgroundColor="{StaticResource PrimaryContainer}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="0">
+                    <Label Text="🌿" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" />
                 </Border>
 
                 <Label Text="Walk complete"

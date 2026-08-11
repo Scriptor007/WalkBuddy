@@ -12,7 +12,7 @@ namespace WalkBuddy
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
-            //Preferences.Clear();
+            // Preferences.Clear();
             Routing.RegisterRoute(nameof(Pages.NaturePromptPage), typeof(Pages.NaturePromptPage));
             Routing.RegisterRoute(nameof(Pages.CheckInPage), typeof(Pages.CheckInPage));
             Routing.RegisterRoute(nameof(Pages.ReflectionPage), typeof(Pages.ReflectionPage));
