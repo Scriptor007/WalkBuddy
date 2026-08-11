@@ -12,6 +12,7 @@ namespace WalkBuddy.PageModels
         public string EndEmotionText { get; init; } = string.Empty;
         public string PromptPreview { get; init; } = string.Empty;
         public string FooterText { get; init; } = string.Empty;
+        public string DurationText {  get; init; } = string.Empty;
         public static SessionCardModel FromSession(Session session)
         {
             var dateText = session.CreatedAt.Date == DateTime.Today
@@ -26,13 +27,15 @@ namespace WalkBuddy.PageModels
             var footerText = session.PromptCount > 0
                 ? $"{session.PromptCount} prompts · {reflectionPreview}"
                 : reflectionPreview;
+            var durationText = "Duration: " + $"{session.Duration} min";
             return new SessionCardModel
             {
                 DateText = dateText,
                 StartEmotionText = session.StartEmotion.ToString(),
                 EndEmotionText = session.EndEmotion.ToString(),
                 PromptPreview = promptPreview,
-                FooterText = footerText
+                FooterText = footerText,
+                DurationText = durationText
             };
         }
     }

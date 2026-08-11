@@ -12,6 +12,8 @@ namespace WalkBuddy.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public int Duration { get; set; } = 0;
+
         public int PromptCount { get; set; } = 0;
 
         public Emotion StartEmotion { get; set; }

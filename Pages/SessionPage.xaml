@@ -56,7 +56,13 @@
                                     <Label Text="{Binding DateText}"
                                        FontSize="14"
                                        FontFamily="RobotoMedium"
-                                       TextColor="{StaticResource OnSurface}" />
+                                       TextColor="{StaticResource OnSurface}"
+                                       Grid.Column="0" />
+                                    <Label Text="{Binding DurationText}"
+                                       FontSize="14"
+                                       FontFamily="RobotoMedium"
+                                       TextColor="{StaticResource OnSurface}"
+                                       Grid.Column="1" />
                                 </Grid>
                                 <HorizontalStackLayout Spacing="6">
                                     <Border BackgroundColor="{StaticResource SurfaceVariant}"

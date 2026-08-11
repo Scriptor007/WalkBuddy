@@ -13,6 +13,8 @@ namespace WalkBuddy.PageModels
 
         public IReadOnlyList<string> Emotions { get; } = Enum.GetNames(typeof(Emotion));
 
+        public TimerService TimerService { get; }
+
         [ObservableProperty]
         private Session? _session;
 
@@ -25,9 +27,10 @@ namespace WalkBuddy.PageModels
         [ObservableProperty]
         private string _subtitleText = "Add a short reflection (optional)";
 
-        public ReflectionPageModel(SessionRepository sessionRepository)
+        public ReflectionPageModel(SessionRepository sessionRepository, TimerService timerService)
         {
             _sessionRepository = sessionRepository;
+            TimerService = timerService;
         }
 
         [RelayCommand]
@@ -82,6 +85,7 @@ namespace WalkBuddy.PageModels
                 {
                     Session.EndEmotion = parsedEmotion;
                 }
+                Session.Duration = TimerService.MinPassed == -1 ? 0 : TimerService.MinPassed;
                 Session.Note = Note ?? string.Empty;
                 await _sessionRepository.SaveSessionAsync(Session);
                 Preferences.Set("active_session_id", 0);
@@ -97,9 +101,29 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task Skip()
         {
-            Preferences.Set("active_session_id", 0);
-            await Shell.Current.Navigation.PopToRootAsync();
-            await Shell.Current.GoToAsync("//sessions");
+            if (_isBusy)
+                return;
+
+            _isBusy = true;
+
+            try
+            {
+                if (Session == null)
+                {
+                    Session = await _sessionRepository.GetLatestSessionAsync()
+                        ?? new Session { CreatedAt = DateTime.Now };
+                }
+
+                Session.Duration = TimerService.MinPassed == -1 ? 0 : TimerService.MinPassed;
+                await _sessionRepository.SaveSessionAsync(Session);
+                Preferences.Set("active_session_id", 0);
+                await Shell.Current.Navigation.PopToRootAsync();
+                await Shell.Current.GoToAsync("//sessions");
+            }
+            finally
+            {
+                _isBusy = false;
+            }
         }
     }
 }
