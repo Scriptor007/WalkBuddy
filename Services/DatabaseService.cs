@@ -17,6 +17,7 @@ namespace WalkBuddy.Services
             _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             await _database.CreateTableAsync<User>();
             await _database.CreateTableAsync<Session>();
+            await _database.CreateTableAsync<PromptLog>();
 #if DEBUG
             await SeedSessionsIfNeeded(_database);
 #endif

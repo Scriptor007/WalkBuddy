@@ -52,6 +52,7 @@ namespace WalkBuddy
             builder.Services.AddSingleton<UserRepository>();
             builder.Services.AddSingleton<StaticDataService>();
             builder.Services.AddSingleton<SessionRepository>();
+            builder.Services.AddSingleton<PromptRepository>();
             builder.Services.AddSingleton<StaticDataService>();
             builder.Services.AddSingleton<MistralService>();
             builder.Services.AddSingleton<TimerService>();
@@ -72,7 +73,7 @@ namespace WalkBuddy
 
             builder.Services.AddHttpClient<MistralService>((serviceProvider, httpClient) =>
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "3sWny4kVbnK4plO6fewjlVgH5XWBbFNp");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "8y5rGHUEPHswTh3kV9wkm0OAgn4DHVig");
                 httpClient.BaseAddress = new Uri("https://api.mistral.ai");
             });
             builder.Services.AddTransient<ReflectionPage>();

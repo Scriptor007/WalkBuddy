@@ -18,6 +18,8 @@ namespace WalkBuddy.PageModels
 
         private readonly SessionRepository _sessionRepository;
 
+        private readonly PromptRepository _promptRepository;
+
         public TimerService TimerService { get; }
 
         [ObservableProperty]
@@ -31,11 +33,35 @@ namespace WalkBuddy.PageModels
 
         public Locale? enLanguage { get; set; }
 
-        public NaturePromptPageModel(MistralService mistralService, SessionRepository sessionRepository, TimerService timerService)
+        private readonly Stopwatch _screenOnStopwatch = new();
+
+        private readonly Stopwatch _interactionStopwatch = new();
+        private bool _hasInteracted = false;
+
+        [ObservableProperty]
+        private PromptLog _currentPromptLog = new();
+
+        public NaturePromptPageModel(MistralService mistralService, SessionRepository sessionRepository, TimerService timerService, PromptRepository promptRepository)
         {
             _mistralService = mistralService;
             _sessionRepository = sessionRepository;
             TimerService = timerService;
+            _promptRepository = promptRepository;
+        }
+
+        partial void OnMistralAnswerChanging(string? oldValue, string? newValue)
+        {
+            if (!string.IsNullOrWhiteSpace(newValue))
+            {
+                CurrentPromptLog = new PromptLog
+                {
+                    PromptText = newValue
+                };
+
+                _hasInteracted = false;
+                _interactionStopwatch.Restart();
+                _screenOnStopwatch.Restart();
+            }
         }
 
         [RelayCommand]
@@ -48,6 +74,15 @@ namespace WalkBuddy.PageModels
 
             try
             {
+                _screenOnStopwatch.Start();
+
+                var window = Application.Current?.Windows.FirstOrDefault();
+                if (window != null)
+                {
+                    window.Deactivated += OnAppDeactivated;
+                    window.Activated += OnAppActivated;
+                }
+
                 WeakReferenceMessenger.Default.Register<TimerResumeMessage>(this, (sender, args) =>
                 {
                     TimerService.UpdateMinutes();
@@ -69,6 +104,21 @@ namespace WalkBuddy.PageModels
         private async Task Disappearing()
         {
             WeakReferenceMessenger.Default.Unregister<TimerResumeMessage>(this);
+
+            _screenOnStopwatch.Stop();
+
+            var window = Application.Current?.Windows.FirstOrDefault();
+            if (window != null)
+            {
+                window.Deactivated -= OnAppDeactivated;
+                window.Activated -= OnAppActivated;
+            }
+
+            CurrentPromptLog.ScreenOnTimeSeconds = _screenOnStopwatch.Elapsed.TotalSeconds;
+            if (!string.IsNullOrWhiteSpace(CurrentPromptLog.PromptText))
+            {
+                await _promptRepository.SaveSessionAsync(CurrentPromptLog);
+            }
         }
 
         [RelayCommand]
@@ -77,6 +127,8 @@ namespace WalkBuddy.PageModels
             if (IsBusy)
                 return;
 
+            RegisterInteraction();
+            CurrentPromptLog.UsedMidWalkCheckIn = true;
             var param = new Dictionary<string, object>
                 {
                     { "answer", MistralAnswer }
@@ -91,6 +143,13 @@ namespace WalkBuddy.PageModels
                 return;
 
             IsBusy = true;
+            RegisterInteraction();
+            CurrentPromptLog.WasRejected = true;
+            CurrentPromptLog.ScreenOnTimeSeconds = _screenOnStopwatch.Elapsed.TotalSeconds;
+            if (!string.IsNullOrWhiteSpace(CurrentPromptLog.PromptText))
+            {
+                await _promptRepository.SaveSessionAsync(CurrentPromptLog);
+            }
 
             try
             {
@@ -112,6 +171,7 @@ namespace WalkBuddy.PageModels
             if (IsBusy)
                 return;
 
+            RegisterInteraction();
             Preferences.Remove("active_session_id");
             TimerService.Stop();
             await Shell.Current.GoToAsync(nameof(ReflectionPage));
@@ -120,6 +180,9 @@ namespace WalkBuddy.PageModels
         [RelayCommand]
         private async Task VoiceOutput()
         {
+            RegisterInteraction();
+            CurrentPromptLog.UsedAudioOutput = true;
+
             if (enLanguage == null)
             {
                 IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
@@ -130,6 +193,27 @@ namespace WalkBuddy.PageModels
             SpeechOptions options = new() { Locale = enLanguage };
 
             await TextToSpeech.SpeakAsync(MistralAnswer, options);
+        }
+
+        private void RegisterInteraction()
+        {
+            if (!_hasInteracted && _interactionStopwatch.IsRunning)
+            {
+                _interactionStopwatch.Stop();
+                _hasInteracted = true;
+
+                CurrentPromptLog.TimeToFirstInteractionSeconds = _interactionStopwatch.Elapsed.TotalSeconds;
+            }
+        }
+
+        private void OnAppDeactivated(object? sender, EventArgs e)
+        {
+            _screenOnStopwatch.Stop();
+        }
+
+        private void OnAppActivated(object? sender, EventArgs e)
+        {
+            _screenOnStopwatch.Start();
         }
     }
 }
